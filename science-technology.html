@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Science and Technology · Frontend Lab</title>
+  <meta name="description" content="Exercise 03 — text formatting with bold, italic, underline, highlight, subscript and superscript.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .science-card { max-width: 900px; margin: 0 auto; }
+    .science-card h2 { font-size: 1.25rem; }
+    .science-card p { font-size: 1.02rem; line-height: 1.85; color: #334155; }
+    .science-card mark { background: #fef3c7; color: #78350f; padding: .08em .28em; border-radius: 4px; }
+    .formula-strip {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; margin: 1.6rem 0 .4rem;
+    }
+    .formula-tile { background: #f8fafc; border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem; }
+    .formula-tile span { display: block; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 800; margin-bottom: .3rem; }
+    .formula-tile strong { font-size: 1.35rem; color: var(--ink); letter-spacing: .01em; }
+    .tag-legend { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; }
+    .tag-legend div { display: flex; align-items: center; gap: .65rem; font-size: .84rem; color: var(--body); background: #f8fafc; border: 1px solid var(--line); border-radius: 9px; padding: .55rem .7rem; }
+    .tag-legend code { color: var(--brand-strong); background: var(--brand-tint); border: 1px solid #99f6e4; border-radius: 5px; padding: .1rem .35rem; font-size: .78rem; }
+    @media (max-width: 767.98px) { .formula-strip, .tag-legend { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 01 · HTML foundations</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercise <span class="num">03</span></span>
+          <span class="chip chip-brand">Text formatting</span>
+          <span class="chip">Sub / Sup</span>
+        </div>
+        <h1 class="page-title">Science and Technology</h1>
+        <p class="page-lead">A short primer for the Science Club, using the formatting tags that make technical writing readable.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <article class="panel prose-card science-card">
+          <h2>Where curiosity meets craft</h2>
+          <p><b>Science</b> asks the questions that move us forward, while technology turns the answers into tools people can use. <i>Innovation</i> usually happens in the space between the two — a careful experiment on one side, a prototype that ships on the other. <u>Scientific Research</u> gives us the evidence to choose the right path, and an open, questioning culture is <mark>essential</mark> if that evidence is going to reach the people who need it.</p>
+
+          <p>Every laboratory on campus depends on the same loop: observe, test, measure and share. The periodic table, the physics lab and the software studio all speak the same language of reproducible results. That is why even a simple formula deserves to be written clearly.</p>
+
+          <div class="formula-strip" aria-label="Scientific and mathematical expressions">
+            <div class="formula-tile"><span>Chemical formula</span><strong>CO<sub>2</sub></strong></div>
+            <div class="formula-tile"><span>Algebraic identity</span><strong>a<sup>3</sup> + b<sup>3</sup></strong></div>
+            <div class="formula-tile"><span>Einstein&rsquo;s relation</span><strong>E = mc<sup>2</sup></strong></div>
+          </div>
+
+          <p class="mb-0">Carbon dioxide, <b>CO<sub>2</sub></b>, is the gas behind both photosynthesis and the climate conversation. In algebra, <b>a<sup>3</sup> + b<sup>3</sup></b> expands to (a + b)(a<sup>2</sup> − ab + b<sup>2</sup>) — a neat reminder that notation is part of the explanation.</p>
+        </article>
+
+        <div class="panel panel-pad mt-4">
+          <p class="small-caps mb-3">Tags used on this page</p>
+          <div class="tag-legend">
+            <div><code>&lt;b&gt;</code> <span>Science</span> — bold emphasis</div>
+            <div><code>&lt;i&gt;</code> <span>Innovation</span> — italic emphasis</div>
+            <div><code>&lt;u&gt;</code> <span>Scientific Research</span> — underline</div>
+            <div><code>&lt;mark&gt;</code> <span>essential</span> — highlight</div>
+            <div><code>&lt;sub&gt;</code> <span>CO₂</span> — chemical subscript</div>
+            <div><code>&lt;sup&gt;</code> <span>a³, mc²</span> — mathematical superscript</div>
+          </div>
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>Main heading “Science and Technology”</li>
+            <li>Introductory paragraph about the field</li>
+            <li>Bold <code>Science</code>, italic <code>Innovation</code></li>
+            <li>Underlined <code>Scientific Research</code></li>
+            <li>Highlighted <code>essential</code></li>
+            <li>CO₂ with sub, a³ + b³ with sup</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="travel-bucket-list.html"><i class="bi bi-arrow-left"></i> 02 · Travel bucket list</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="employee-profile.html">04 · Employee profile <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

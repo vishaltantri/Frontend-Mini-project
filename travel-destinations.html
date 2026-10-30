@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travel Destinations · Frontend Lab</title>
+  <meta name="description" content="Exercise 05 — four travel destination sections built with divs and stacked vertically.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .destinations { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.2rem; }
+    .destination {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 0;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .destination img { width: 100%; height: 100%; min-height: 210px; object-fit: cover; display: block; }
+    .destination .copy { padding: 1.35rem 1.5rem; }
+    .destination .copy span { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--brand-strong); font-weight: 800; }
+    .destination h2 { font-size: 1.3rem; margin: .35rem 0 .5rem; }
+    .destination p { color: var(--muted); font-size: .9rem; margin-bottom: .8rem; }
+    .destination .meta { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .destination .meta span {
+      font-size: .7rem; font-weight: 700; padding: .2rem .5rem; border-radius: 5px;
+      background: #f1f5f9; color: #475569;
+    }
+    @media (max-width: 767.98px) {
+      .destination { grid-template-columns: 1fr; }
+      .destination img { min-height: 180px; max-height: 220px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 02 · Divs &amp; layouts</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercise <span class="num">05</span></span>
+          <span class="chip chip-brand">Div cards</span>
+          <span class="chip">Stacked layout</span>
+        </div>
+        <h1 class="page-title">Travel Destinations</h1>
+        <p class="page-lead">Four destination cards for the Frontend Lab travel desk — one outer container, four sections, each with an image, a heading and a short description.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <!-- Outer container holding all destination cards -->
+        <div class="destinations">
+          <div class="destination">
+            <img src="assets/img/japan.jpg" width="900" height="600" alt="Kyoto street with a pagoda at dusk">
+            <div class="copy">
+              <span>East Asia</span>
+              <h2>Japan</h2>
+              <p>Kyoto&rsquo;s lanes, Tokyo&rsquo;s neon and a rail pass that makes both feel close. Go in spring for the blossom or in November for quiet temples and red maple.</p>
+              <div class="meta"><span>Cherry blossoms</span><span>Rail travel</span><span>Street food</span></div>
+            </div>
+          </div>
+
+          <div class="destination">
+            <img src="assets/img/switzerland.jpg" width="900" height="600" alt="Swiss alpine village beside a river and mountains">
+            <div class="copy">
+              <span>Central Europe</span>
+              <h2>Switzerland</h2>
+              <p>Glacier trains, lakeside villages and trails that start at the railway station. Lauterbrunnen is the base camp; the Bernina Express is the long way home.</p>
+              <div class="meta"><span>Alps</span><span>Scenic rail</span><span>Hiking</span></div>
+            </div>
+          </div>
+
+          <div class="destination">
+            <img src="assets/img/canada.jpg" width="900" height="600" alt="Turquoise lake surrounded by snow-capped Rocky Mountains">
+            <div class="copy">
+              <span>North America</span>
+              <h2>Canada</h2>
+              <p>Banff&rsquo;s turquoise lakes, Vancouver&rsquo;s coast and long summer days in British Columbia. Rent a car, wake early, and let the mountains set the pace.</p>
+              <div class="meta"><span>Rockies</span><span>Road trip</span><span>National parks</span></div>
+            </div>
+          </div>
+
+          <div class="destination">
+            <img src="assets/img/india.jpg" width="900" height="600" alt="Taj Mahal reflected in the water at Agra">
+            <div class="copy">
+              <span>South Asia</span>
+              <h2>India</h2>
+              <p>Start with the Taj Mahal at sunrise, then take the slow route south — Hampi&rsquo;s boulders, Kerala&rsquo;s backwaters and the long train between them.</p>
+              <div class="meta"><span>Heritage</span><span>Backwaters</span><span>Rail</span></div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>One main div holding all destination cards</li>
+            <li>Four separate destination div sections</li>
+            <li>An image, heading and two–three line description each</li>
+            <li>Vertical stacking without relying on a grid framework</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="employee-profile.html"><i class="bi bi-arrow-left"></i> 04 · Employee profile</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="employee-id-card.html">06 · Employee ID card <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

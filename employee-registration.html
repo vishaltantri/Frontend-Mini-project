@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Employee Registration · HR</title>
+  <meta name="description" content="Exercise 22 — an employee registration form whose JavaScript checks every field and prints the values as a table.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .form-section-title {
+      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--brand-strong); font-weight: 800; margin: 1.4rem 0 .7rem;
+    }
+    .form-section-title:first-of-type { margin-top: 0; }
+    .record-table th { width: 30%; color: var(--muted); font-weight: 600; font-size: .84rem; background: #f8fafc; }
+    .record-table td { font-size: .88rem; color: var(--ink); }
+    .record-table th, .record-table td { padding: .55rem .8rem; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 05 · JavaScript validation</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercise <span class="num">22</span></span>
+          <span class="chip chip-brand">JavaScript</span>
+          <span class="chip">Tabular output</span>
+        </div>
+        <h1 class="page-title">Employee registration</h1>
+        <p class="page-lead">The HR onboarding form. JavaScript checks that no field is left empty, then prints every submitted value in a formatted table.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-7">
+            <div class="panel panel-pad">
+              <h2 class="section-title" style="font-size:1.25rem;">New employee record</h2>
+              <p class="section-lead mb-3" style="font-size:.88rem;">All fields marked <span class="req">*</span> are required.</p>
+
+              <form id="empForm" action="#" novalidate>
+                <p class="form-section-title">Identity</p>
+                <div class="form-grid">
+                  <div>
+                    <label class="form-label" for="empName">Full name <span class="req">*</span></label>
+                    <input class="form-control" id="empName" name="fullName" type="text" placeholder="Ananya Rao" data-label="Full name" required>
+                    <p class="field-error" data-error-for="fullName"></p>
+                  </div>
+                  <div>
+                    <label class="form-label" for="empId">Employee ID <span class="req">*</span></label>
+                    <input class="form-control" id="empId" name="employeeId" type="text" placeholder="NT-2041" data-label="Employee ID" required>
+                    <p class="field-error" data-error-for="employeeId"></p>
+                  </div>
+                  <div>
+                    <label class="form-label" for="empEmail">Email address <span class="req">*</span></label>
+                    <input class="form-control" id="empEmail" name="email" type="email" placeholder="name@novatech.example" data-label="Email" required>
+                    <p class="field-error" data-error-for="email"></p>
+                  </div>
+                  <div>
+                    <label class="form-label" for="empPhone">Mobile number <span class="req">*</span></label>
+                    <input class="form-control" id="empPhone" name="phone" type="tel" placeholder="9876543210" data-label="Mobile" required>
+                    <p class="field-error" data-error-for="phone"></p>
+                  </div>
+                  <div>
+                    <label class="form-label" for="empDob">Date of birth <span class="req">*</span></label>
+                    <input class="form-control" id="empDob" name="dob" type="date" data-label="Date of birth" required>
+                    <p class="field-error" data-error-for="dob"></p>
+                  </div>
+                  <div>
+                    <label class="form-label" for="empJoin">Joining date <span class="req">*</span></label>
+                    <input class="form-control" id="empJoin" name="joiningDate" type="date" data-label="Joining date" required>
+                    <p class="field-error" data-error-for="joiningDate"></p>
+                  </div>
+                  <fieldset class="span-2">
+                    <legend class="form-label">Gender <span class="req">*</span></legend>
+                    <div class="d-flex flex-wrap gap-3">
+                      <div class="form-check"><input class="form-check-input" id="empFemale" name="gender" type="radio" value="Female" data-label="Gender" required><label class="form-check-label" for="empFemale">Female</label></div>
+                      <div class="form-check"><input class="form-check-input" id="empMale" name="gender" type="radio" value="Male" data-label="Gender"><label class="form-check-label" for="empMale">Male</label></div>
+                      <div class="form-check"><input class="form-check-input" id="empOther" name="gender" type="radio" value="Other" data-label="Gender"><label class="form-check-label" for="empOther">Other</label></div>
+                    </div>
+                    <p class="field-error" data-error-for="gender"></p>
+                  </fieldset>
+                </div>
+
+                <p class="form-section-title">Role</p>
+                <div class="form-grid">
+                  <div>
+                    <label class="form-label" for="empDept">Department <span class="req">*</span></label>
+                    <select class="form-select" id="empDept" name="department" data-label="Department" required>
+                      <option value="">Select a department</option>
+                      <option>Product Design</option>
+                      <option>Engineering</option>
+                      <option>People Operations</option>
+                      <option>Finance</option>
+                      <option>Customer Success</option>
+                    </select>
+                    <p class="field-error" data-error-for="department"></p>
+                  </div>
+                  <div>
+                    <label class="form-label" for="empDesignation">Designation <span class="req">*</span></label>
+                    <input class="form-control" id="empDesignation" name="designation" type="text" placeholder="Senior Product Designer" data-label="Designation" required>
+                    <p class="field-error" data-error-for="designation"></p>
+                  </div>
+                  <div>
+                    <label class="form-label" for="empType">Employment type <span class="req">*</span></label>
+                    <select class="form-select" id="empType" name="employmentType" data-label="Employment type" required>
+                      <option value="">Select a type</option>
+                      <option>Full-time</option>
+                      <option>Internship</option>
+                      <option>Contract</option>
+                      <option>Part-time</option>
+                    </select>
+                    <p class="field-error" data-error-for="employmentType"></p>
+                  </div>
+                  <div>
+                    <label class="form-label" for="empLocation">Work location <span class="req">*</span></label>
+                    <input class="form-control" id="empLocation" name="location" type="text" placeholder="Bengaluru" data-label="Work location" required>
+                    <p class="field-error" data-error-for="location"></p>
+                  </div>
+                  <div class="span-2">
+                    <label class="form-label" for="empAddress">Address <span class="req">*</span></label>
+                    <textarea class="form-control" id="empAddress" name="address" rows="2" placeholder="House, street, city, PIN" data-label="Address" required></textarea>
+                    <p class="field-error" data-error-for="address"></p>
+                  </div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                  <button class="btn btn-brand" type="submit"><i class="bi bi-person-plus me-1"></i> Register employee</button>
+                  <button class="btn btn-outline-brand" type="reset">Clear</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="panel panel-pad" id="empOutputPanel">
+              <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
+                <h2 class="section-title mb-0" style="font-size:1.05rem;">Submitted record</h2>
+                <span class="chip"><i class="bi bi-table"></i> Table output</span>
+              </div>
+              <p class="section-lead mb-3" style="font-size:.85rem;">After a successful check, every field and value appears here as a table row.</p>
+              <div id="empOutput" aria-live="polite">
+                <div class="output-panel">Nothing submitted yet. Fill the form and press <strong>Register employee</strong>.</div>
+              </div>
+            </div>
+
+            <div class="note-strip mt-3">
+              <i class="bi bi-lightbulb"></i>
+              <div>Try submitting with empty fields: each one gets a red message beside it and the record is not produced.</div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>HTML5 employee registration form</li>
+            <li>JavaScript empty-field checking</li>
+            <li>All entered values collected with FormData</li>
+            <li>Formatted tabular output</li>
+            <li>Professional CSS styling</li>
+            <li>Reset clears errors and the result</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="checkout.html"><i class="bi bi-arrow-left"></i> 21 · Checkout &amp; payment</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="student-login.html#validation">23 · Login validation <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/employee-registration.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 320" role="img" aria-label="Illustrated employee headshot">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e0f2fe"/>
+      <stop offset="1" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="suit" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e293b"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="360" height="320" fill="url(#bg)"/>
+  <circle cx="300" cy="60" r="70" fill="#ffffff" opacity=".45"/>
+  <path d="M52 320c0-72 57-120 128-120s128 48 128 120z" fill="url(#suit)"/>
+  <path d="M154 212h52v66h-52z" fill="#e8b990"/>
+  <path d="M180 232l20 30-20 58-20-58z" fill="#ffffff"/>
+  <path d="M180 250l11 20-11 34-11-34z" fill="#0ea5e9"/>
+  <path d="M131 118c0-41 22-70 49-70s49 29 49 70v22c0 40-22 66-49 66s-49-26-49-66z" fill="#f0c3a0"/>
+  <path d="M126 124c-4-48 23-84 55-84 36 0 59 26 59 66 0 15-5 22-11 12-7-12-18-20-38-18-23 2-43 15-54 30-7 10-10 6-11-6z" fill="#1f2937"/>
+  <path d="M142 122c7-5 18-5 25-1M196 121c7-4 18-4 25 1" stroke="#2b2118" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <ellipse cx="156" cy="139" rx="6" ry="7" fill="#1f2937"/>
+  <ellipse cx="207" cy="139" rx="6" ry="7" fill="#1f2937"/>
+  <path d="M181 143v22c0 4-3 6-8 7" stroke="#cf9770" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M162 180c11 9 26 9 37 0" stroke="#a05a45" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <path d="M180 213l-24 22 24 24 24-24z" fill="#e2e8f0"/>
+</svg>

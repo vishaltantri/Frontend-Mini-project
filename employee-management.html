@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Employee Management System · Frontend Lab</title>
+  <meta name="description" content="Exercise 09 — a vertical div-based sidebar navigation for an Employee Management System.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .ems {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 430px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .ems-sidebar { background: linear-gradient(160deg, #0b1220, #102a33); padding: 1.4rem 1rem; color: #cbd5e1; }
+    .ems-brand { display: flex; align-items: center; gap: .55rem; padding: 0 .5rem 1.2rem; border-bottom: 1px solid rgba(255,255,255,.1); margin-bottom: 1rem; }
+    .ems-brand .mark { width: 32px; height: 32px; border-radius: 9px; background: #14b8a6; display: grid; place-items: center; color: #062b29; font-weight: 800; font-size: .72rem; }
+    .ems-brand strong { color: #fff; font-size: .85rem; letter-spacing: -.01em; }
+    .ems-nav { display: flex; flex-direction: column; gap: .25rem; }
+    .ems-nav a {
+      display: flex; align-items: center; gap: .6rem;
+      color: #cbd5e1; text-decoration: none; font-size: .87rem; font-weight: 550;
+      padding: .6rem .75rem; border-radius: 9px;
+    }
+    .ems-nav a:hover { background: rgba(255,255,255,.08); color: #fff; }
+    .ems-nav a.is-active { background: rgba(20,184,166,.18); color: #fff; box-shadow: inset 3px 0 0 #2dd4bf; }
+    .ems-nav .bi { width: 1.1rem; color: #5eead4; }
+    .ems-main { padding: 2rem; display: flex; flex-direction: column; justify-content: center; gap: 1.2rem; }
+    .ems-main h2 { font-size: clamp(1.35rem, 2.4vw, 1.85rem); max-width: 22ch; margin: 0; }
+    .ems-main p { color: var(--muted); margin: 0; max-width: 60ch; }
+    .ems-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; max-width: 520px; }
+    .ems-stats div { border: 1px solid var(--line); border-radius: 10px; padding: .75rem .9rem; background: #f8fafc; }
+    .ems-stats strong { display: block; color: var(--ink); font-size: 1.15rem; line-height: 1.15; }
+    .ems-stats span { font-size: .67rem; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); font-weight: 700; }
+    .ems-hint { font-size: .78rem; color: var(--muted); display: flex; align-items: center; gap: .35rem; }
+    .ems-quick { display: grid; grid-template-columns: repeat(4, 1fr); gap: .45rem; max-width: 560px; scroll-margin-top: 100px; }
+    .ems-quick > div { border: 1px solid var(--line); border-radius: 9px; padding: .55rem .6rem; background: #fff; }
+    .ems-quick .bi { color: var(--brand); font-size: .9rem; }
+    .ems-quick strong { display: block; font-size: .76rem; color: var(--ink); }
+    .ems-quick span { font-size: .68rem; color: var(--muted); }
+    @media (max-width: 767.98px) {
+      .ems { grid-template-columns: 1fr; }
+      .ems-sidebar { padding: 1rem; }
+      .ems-nav { flex-direction: row; flex-wrap: wrap; }
+      .ems-main { padding: 1.3rem; }
+      .ems-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 02 · Divs &amp; layouts</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercise <span class="num">09</span></span>
+          <span class="chip chip-brand">Sidebar</span>
+          <span class="chip">Div navigation</span>
+        </div>
+        <h1 class="page-title">Employee Management System</h1>
+        <p class="page-lead">A vertical dashboard menu on the left and a welcome panel on the right — navigation built from divs, with the active item clearly marked.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="ems">
+          <div class="ems-sidebar">
+            <div class="ems-brand">
+              <span class="mark" aria-hidden="true">HR</span>
+              <strong>People Ops</strong>
+            </div>
+            <!-- Vertical navigation menu built from divs -->
+            <nav class="ems-nav" aria-label="Employee management menu">
+              <a class="is-active" href="#home" aria-current="page"><i class="bi bi-house-door"></i> Home</a>
+              <a href="#directory"><i class="bi bi-people"></i> Employee Directory</a>
+              <a href="#payroll"><i class="bi bi-cash-stack"></i> Payroll</a>
+              <a href="#leave"><i class="bi bi-calendar-check"></i> Leave Requests</a>
+              <a href="#reports"><i class="bi bi-bar-chart"></i> Reports</a>
+            </nav>
+          </div>
+
+          <div class="ems-main" id="home">
+            <span class="eyebrow mb-0">Dashboard</span>
+            <h2>Welcome to the Employee Management System Dashboard</h2>
+            <p>Review your team, approve leave and run payroll from one place. This demo menu lives in a div column; each item is an anchor inside the sidebar.</p>
+            <div class="ems-stats">
+              <div><strong>248</strong><span>Employees</span></div>
+              <div><strong>12</strong><span>Open requests</span></div>
+              <div><strong>Aug</strong><span>Payroll cycle</span></div>
+            </div>
+            <div class="ems-quick">
+              <div id="directory"><i class="bi bi-people"></i><strong>Directory</strong><span>248 profiles</span></div>
+              <div id="payroll"><i class="bi bi-cash-stack"></i><strong>Payroll</strong><span>August run</span></div>
+              <div id="leave"><i class="bi bi-calendar-check"></i><strong>Leave</strong><span>12 pending</span></div>
+              <div id="reports"><i class="bi bi-bar-chart"></i><strong>Reports</strong><span>6 saved</span></div>
+            </div>
+            <p class="ems-hint mb-0"><i class="bi bi-info-circle"></i> Menu links jump to the quick panels below.</p>
+          </div>
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>Title “Employee Management System”</li>
+            <li>Vertical sidebar navigation on the left</li>
+            <li>Home, Directory, Payroll, Leave, Reports</li>
+            <li>Welcome message on the right</li>
+            <li>Layout built from div containers</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="table-layout.html"><i class="bi bi-arrow-left"></i> 08 · Table layout</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="layout1.html">10 · layout1.html <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Login · Frontend Lab</title>
+  <meta name="description" content="Exercises 18 and 23 — an HTML5 student login form with audio instructions and JavaScript validation.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .auth-panel { padding: clamp(1.3rem, 3vw, 2rem); }
+    .auth-head { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.3rem; }
+    .auth-mark {
+      width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center;
+      background: var(--brand-tint); color: var(--brand-strong); font-size: 1.2rem;
+      border: 1px solid #99f6e4; flex: 0 0 auto;
+    }
+    .auth-head h2 { font-size: 1.18rem; margin: 0; }
+    .auth-head p { margin: 0; font-size: .8rem; color: var(--muted); }
+    .role-group { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+    .role-pill { position: relative; cursor: pointer; margin: 0; }
+    .role-pill input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .role-pill span {
+      display: flex; align-items: center; gap: .5rem; justify-content: center;
+      border: 1px solid #d6dfea; border-radius: 10px; padding: .6rem .8rem;
+      font-size: .88rem; font-weight: 600; color: var(--body); background: #fff;
+      transition: border-color .15s ease, background .15s ease, color .15s ease;
+    }
+    .role-pill span .bi { color: var(--muted); }
+    .role-pill input:checked + span { border-color: var(--brand); background: var(--brand-tint); color: var(--brand-strong); box-shadow: inset 0 0 0 1px var(--brand); }
+    .role-pill input:checked + span .bi { color: var(--brand); }
+    .role-pill input:focus-visible + span { outline: 3px solid rgba(13, 148, 136, .4); outline-offset: 2px; }
+    .auth-links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; font-size: .83rem; margin-top: 1rem; }
+    .auth-links a { font-weight: 600; }
+    .audio-card { padding: 1.2rem; }
+    .audio-card h3 { font-size: .95rem; margin-bottom: .25rem; }
+    .audio-card p { font-size: .82rem; color: var(--muted); }
+    .audio-card audio { width: 100%; margin: .4rem 0 .8rem; }
+    .audio-card ul { font-size: .82rem; padding-left: 1.1rem; color: var(--body); margin-bottom: 0; }
+    .audio-card li { margin-bottom: .3rem; }
+    .transcript { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: .8rem; margin-top: .9rem; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 04 · Forms &amp; media</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercise <span class="num">18</span> &amp; <span class="num">23</span></span>
+          <span class="chip chip-brand">HTML5 form</span>
+          <span class="chip">Audio</span>
+          <span class="chip">JS validation</span>
+        </div>
+        <h1 class="page-title">Student login</h1>
+        <p class="page-lead">The Frontend Lab sign-in screen: email, password, remember-me, role selection and a spoken instruction clip. The same form carries the JavaScript empty-field checks and its result panel.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-7" id="validation">
+            <div class="panel auth-panel">
+              <div class="auth-head">
+                <span class="auth-mark" aria-hidden="true"><i class="bi bi-person-lock"></i></span>
+                <div>
+                  <h2>Sign in to Frontend Lab</h2>
+                  <p>Use your campus account to continue.</p>
+                </div>
+              </div>
+
+              <form id="loginForm" novalidate>
+                <div class="mb-3">
+                  <label class="form-label" for="loginEmail">Username or email address <span class="req">*</span></label>
+                  <input class="form-control" id="loginEmail" name="email" type="email" autocomplete="username"
+                         placeholder="e.g. name@vitstudent.ac.in" required aria-describedby="emailError">
+                  <p class="field-error" id="emailError"></p>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label" for="loginPassword">Password <span class="req">*</span></label>
+                  <input class="form-control" id="loginPassword" name="password" type="password" autocomplete="current-password"
+                         placeholder="At least 6 characters" minlength="6" required aria-describedby="passwordError">
+                  <p class="field-error" id="passwordError"></p>
+                </div>
+
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="rememberMe" name="remember">
+                    <label class="form-check-label" for="rememberMe">Remember me on this device</label>
+                  </div>
+                  <span class="chip"><i class="bi bi-shield-check"></i> Demo only</span>
+                </div>
+
+                <fieldset class="mb-3">
+                  <legend class="form-label">I am signing in as <span class="req">*</span></legend>
+                  <div class="role-group" role="radiogroup" aria-describedby="roleError">
+                    <label class="role-pill">
+                      <input type="radio" name="role" value="Student" required>
+                      <span><i class="bi bi-mortarboard"></i> Student</span>
+                    </label>
+                    <label class="role-pill">
+                      <input type="radio" name="role" value="Faculty">
+                      <span><i class="bi bi-person-workspace"></i> Faculty</span>
+                    </label>
+                  </div>
+                  <p class="field-error" id="roleError"></p>
+                </fieldset>
+
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                  <button class="btn btn-brand flex-grow-1" type="submit"><i class="bi bi-box-arrow-in-right me-1"></i> Log In</button>
+                  <button class="btn btn-outline-brand" type="reset"><i class="bi bi-arrow-counterclockwise me-1"></i> Clear</button>
+                </div>
+
+                <div class="auth-links">
+                  <a href="#loginHelp">Forgot password?</a>
+                  <a href="student-registration.html">Create new account</a>
+                </div>
+
+                <div class="output-panel mt-4" id="loginOutput" role="status" aria-live="polite"></div>
+              </form>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="panel audio-card mb-3" id="loginHelp">
+              <h3><i class="bi bi-volume-up me-1 text-success"></i> Listen to the instructions</h3>
+              <p>A short audio clip explains how to sign in and what each field does.</p>
+              <audio controls preload="metadata" src="assets/media/login-instructions.mp3">
+                Your browser does not support the audio element.
+                <a href="assets/media/login-instructions.mp3">Download the audio instructions</a>.
+              </audio>
+              <ul>
+                <li>Enter your campus email address.</li>
+                <li>Type your password — at least 6 characters.</li>
+                <li>Choose Student or Faculty, then press Log In.</li>
+              </ul>
+              <p class="transcript mb-0"><strong>Transcript:</strong> “Welcome to the Frontend Lab student portal. Enter your registered email address and password, then choose your role as student or faculty. Press Log In to continue…”</p>
+            </div>
+
+            <div class="note-strip">
+              <i class="bi bi-info-circle"></i>
+              <div><strong>Frontend-only demo.</strong> Nothing is sent to a server. Validation messages appear next to each field; a valid submission previews the session in the output panel below the form.</div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>Email, password, checkbox and radio inputs</li>
+            <li>HTML5 validation attributes and input types</li>
+            <li>Embedded audio with playback controls</li>
+            <li>Forgot password and create account links</li>
+            <li>Login and Clear buttons</li>
+            <li>Red inline errors for empty or invalid fields</li>
+            <li>Result displayed in a div output panel</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="hospital-footer.html"><i class="bi bi-arrow-left"></i> 17 · Hospital footer</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="symposium-registration.html">19 · Symposium registration <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/student-login.js"></script>
+</body>
+</html>

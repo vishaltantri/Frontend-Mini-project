@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mouse Events · Frontend Lab</title>
+  <meta name="description" content="Exercises 26–30 — colour box, product card, traffic signal, weather panels and a hover message, all driven by JavaScript mouse events.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 1.2rem; }
+    .demo-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; scroll-margin-top: 96px; box-shadow: var(--shadow-sm); }
+    .demo-card .body { padding: 1.3rem; }
+    .demo-head { display: flex; align-items: flex-start; gap: .7rem; margin-bottom: .9rem; }
+    .demo-num {
+      width: 30px; height: 30px; border-radius: 9px; background: var(--brand-tint); border: 1px solid #99f6e4;
+      color: var(--brand-strong); display: grid; place-items: center; font-size: .72rem; font-weight: 800; flex: 0 0 auto;
+    }
+    .demo-head h2 { font-size: 1rem; margin: 0 0 .1rem; }
+    .demo-head p { font-size: .78rem; color: var(--muted); margin: 0; }
+    .demo-msg { min-height: 26px; margin: .8rem 0 0; font-size: .84rem; font-weight: 700; color: var(--brand-strong); }
+
+    /* 26 · colour box */
+    .color-box {
+      height: 176px; border-radius: 14px; display: grid; place-items: center; cursor: pointer;
+      background: linear-gradient(135deg, #0d9488, #0f766e); color: #fff; text-align: center;
+      font-weight: 800; font-size: 1.02rem; letter-spacing: -.01em;
+      transition: background .35s ease, transform .2s ease; user-select: none;
+      border: 1px solid rgba(15, 118, 110, .35);
+    }
+    .color-box:hover { transform: scale(1.012); }
+    .color-box small { display: block; font-weight: 500; font-size: .74rem; opacity: .8; margin-top: .3rem; }
+
+    /* 27 · product card */
+    .product-media { position: relative; border-radius: 14px; overflow: hidden; background: #f8fafc; border: 1px solid var(--line); }
+    .product-media img { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform .35s ease, filter .35s ease; }
+    .product-media.is-hovered img { transform: scale(1.07); filter: saturate(1.15); }
+    .product-peek {
+      position: absolute; left: 10px; right: 10px; bottom: 10px; background: rgba(11, 18, 32, .9);
+      color: #e2e8f0; border-radius: 9px; padding: .55rem .7rem; font-size: .76rem;
+      opacity: 0; transform: translateY(8px); transition: opacity .25s ease, transform .25s ease;
+    }
+    .product-peek strong { color: #5eead4; }
+    .product-media.is-hovered .product-peek { opacity: 1; transform: translateY(0); }
+    .product-details { margin-top: .8rem; font-size: .84rem; background: #f8fafc; border: 1px solid var(--line); border-radius: 9px; padding: .65rem .75rem; display: none; }
+    .product-details.show { display: block; }
+
+    /* 28 · traffic signal */
+    .signal-unit { display: flex; justify-content: center; gap: 10px; background: #0b1220; border-radius: 16px; padding: 14px; }
+    .light {
+      width: 70px; height: 70px; border-radius: 50%; opacity: .22; cursor: pointer;
+      transition: opacity .2s ease, box-shadow .2s ease, transform .2s ease; border: 3px solid rgba(255,255,255,.12);
+    }
+    .light[data-light="red"] { background: #dc2626; }
+    .light[data-light="amber"] { background: #f59e0b; }
+    .light[data-light="green"] { background: #16a34a; }
+    .light.is-active { opacity: 1; transform: scale(1.08); box-shadow: 0 0 26px currentColor; }
+    .light[data-light="red"].is-active { color: #ef4444; }
+    .light[data-light="amber"].is-active { color: #fbbf24; }
+    .light[data-light="green"].is-active { color: #22c55e; }
+    .signal-msg { text-align: center; font-weight: 800; font-size: 1.05rem; letter-spacing: .08em; min-height: 28px; margin-top: .8rem; color: var(--muted); }
+    .signal-msg.is-red { color: #dc2626; }
+    .signal-msg.is-amber { color: #b45309; }
+    .signal-msg.is-green { color: #15803d; }
+
+    /* 29 · weather */
+    .weather-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+    .weather-panel {
+      border: 1px solid var(--line); background: #f8fafc; border-radius: 12px; padding: .9rem .5rem;
+      text-align: center; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+    }
+    .weather-panel .icon { font-size: 1.8rem; line-height: 1; }
+    .weather-panel strong { display: block; font-size: .82rem; color: var(--ink); margin-top: .35rem; }
+    .weather-panel small { font-size: .68rem; color: var(--muted); }
+    .weather-panel.is-active { transform: translateY(-3px); border-color: var(--brand); background: var(--brand-tint); box-shadow: 0 12px 22px -18px rgba(13, 148, 136, .8); }
+    .weather-msg { text-align: center; font-weight: 700; font-size: .88rem; color: var(--brand-strong); min-height: 26px; margin: .7rem 0 0; }
+
+    /* 30 · welcome */
+    .welcome-stage { text-align: center; padding: 2rem 1.4rem; border-radius: 16px; background: linear-gradient(135deg, #0b1220, #103a3a); color: #cbd5e1; }
+    .welcome-stage h2 { color: #fff; font-size: 1.5rem; margin-bottom: .35rem; min-height: 2.2rem; }
+    .welcome-stage p { color: #94a3b8; font-size: .85rem; margin-bottom: 1.2rem; }
+    .btn-welcome {
+      background: #14b8a6; color: #042f2e; border: 0; border-radius: 999px; padding: .8rem 1.6rem;
+      font-weight: 800; font-size: .9rem; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn-welcome:hover { background: #2dd4bf; transform: translateY(-2px); box-shadow: 0 14px 26px rgba(20, 184, 166, .3); }
+    .welcome-hint { font-size: .78rem; color: #5eead4 !important; margin: .9rem 0 0 !important; }
+    .span-all { grid-column: 1 / -1; }
+    @media (max-width: 575.98px) { .light { width: 54px; height: 54px; } .signal-unit { padding: 11px; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 06 · Mouse &amp; keyboard</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercises <span class="num">26–30</span></span>
+          <span class="chip chip-brand">Mouse events</span>
+          <span class="chip">Vanilla JavaScript</span>
+        </div>
+        <h1 class="page-title">Mouse events</h1>
+        <p class="page-lead">Five small interactions built on <code>click</code>, <code>mouseenter</code> and <code>mouseleave</code> — a colour box, a product card, a traffic signal, weather panels and a welcome button.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="demo-grid">
+
+          <!-- 26 -->
+          <article class="demo-card" id="color-box">
+            <div class="body">
+              <div class="demo-head">
+                <span class="demo-num">26</span>
+                <div><h2>Colour-changing box</h2><p>Click to change the colour · hover to see the message</p></div>
+              </div>
+              <div class="color-box" id="colorBox" role="button" tabindex="0" aria-label="Click to change the colour">
+                Click me to change colour
+                <small>5 colours in rotation</small>
+              </div>
+              <p class="demo-msg" id="colorMsg" aria-live="polite"></p>
+            </div>
+          </article>
+
+          <!-- 27 -->
+          <article class="demo-card" id="product-card">
+            <div class="body">
+              <div class="demo-head">
+                <span class="demo-num">27</span>
+                <div><h2>Interactive product card</h2><p>Hover the image · click View Details</p></div>
+              </div>
+              <div class="product-media" id="productMedia">
+                <img src="assets/img/product-headphones.jpg" alt="Noise-cancelling headphones" width="700" height="467">
+                <div class="product-peek"><strong>Campus audio pick</strong> · 30-hour battery, active noise cancellation.</div>
+              </div>
+              <button class="btn btn-brand btn-sm mt-3" id="productBtn" type="button" aria-expanded="false" aria-controls="productDetails">View Details</button>
+              <div class="product-details" id="productDetails">
+                <strong>Price:</strong> &#8377;4,999 &nbsp;·&nbsp; <strong>Availability:</strong> <span style="color:#15803d;font-weight:700;">In stock (12 left)</span><br>
+                <span class="text-muted-2">Free campus delivery in 2 days.</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- 28 -->
+          <article class="demo-card" id="traffic">
+            <div class="body">
+              <div class="demo-head">
+                <span class="demo-num">28</span>
+                <div><h2>Traffic signal</h2><p>Hover a light for its instruction</p></div>
+              </div>
+              <div class="signal-unit">
+                <div class="light" data-light="red" data-message="STOP" role="img" aria-label="Red light: stop"></div>
+                <div class="light" data-light="amber" data-message="READY" role="img" aria-label="Amber light: ready"></div>
+                <div class="light" data-light="green" data-message="GO" role="img" aria-label="Green light: go"></div>
+              </div>
+              <p class="signal-msg" id="trafficMsg" aria-live="polite">Hover a signal</p>
+            </div>
+          </article>
+
+          <!-- 29 -->
+          <article class="demo-card" id="weather">
+            <div class="body">
+              <div class="demo-head">
+                <span class="demo-num">29</span>
+                <div><h2>Weather status</h2><p>Hover a panel for today&rsquo;s advice</p></div>
+              </div>
+              <div class="weather-grid">
+                <div class="weather-panel" data-message="Perfect Day!" tabindex="0" role="button" aria-label="Sunny weather">
+                  <div class="icon" aria-hidden="true">&#9728;&#65039;</div>
+                  <strong>Sunny</strong>
+                  <small>31°C</small>
+                </div>
+                <div class="weather-panel" data-message="Cloudy Weather" tabindex="0" role="button" aria-label="Cloudy weather">
+                  <div class="icon" aria-hidden="true">&#9925;</div>
+                  <strong>Cloudy</strong>
+                  <small>27°C</small>
+                </div>
+                <div class="weather-panel" data-message="Carry an Umbrella!" tabindex="0" role="button" aria-label="Rainy weather">
+                  <div class="icon" aria-hidden="true">&#127783;&#65039;</div>
+                  <strong>Rainy</strong>
+                  <small>24°C</small>
+                </div>
+              </div>
+              <p class="weather-msg" id="weatherMsg" aria-live="polite">Hover a weather panel</p>
+            </div>
+          </article>
+
+          <!-- 30 -->
+          <article class="demo-card span-all" id="welcome">
+            <div class="body">
+              <div class="demo-head">
+                <span class="demo-num">30</span>
+                <div><h2>Welcome to VIT</h2><p>Move the pointer over the button and away again</p></div>
+              </div>
+              <div class="welcome-stage">
+                <h2 id="welcomeText">Frontend design, one interaction at a time.</h2>
+                <p>The message above changes while the pointer is over the button.</p>
+                <button class="btn-welcome" id="welcomeBtn" type="button">Hover me</button>
+                <p class="welcome-hint" id="welcomeHint">Hovering will change the headline.</p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>Colour box changes on click</li>
+            <li>“Mouse is over the box” on hover</li>
+            <li>Product image changes and shows details on hover</li>
+            <li>View Details click reveals price and availability</li>
+            <li>Traffic lights highlight with STOP / READY / GO</li>
+            <li>Weather panels highlight with their own messages</li>
+            <li>Button hover swaps the page message to “Welcome to VIT!”</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="course-registration.html"><i class="bi bi-arrow-left"></i> 25 · Course registration</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="keyboard-events.html">31–36 · Keyboard events <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/mouse-events.js"></script>
+</body>
+</html>

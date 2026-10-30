@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Faculty · Department of Computer Science</title>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .faculty-card { height: 100%; padding: 1.2rem; }
+    .avatar-mono {
+      width: 54px; height: 54px; border-radius: 14px; display: grid; place-items: center;
+      font-weight: 800; color: #fff; background: linear-gradient(135deg, #0f766e, #7c3aed);
+      font-size: 1.05rem; letter-spacing: -.02em; margin-bottom: .9rem;
+    }
+    .faculty-card h2 { font-size: 1rem; margin-bottom: .15rem; }
+    .faculty-role { color: var(--brand-strong); font-size: .8rem; font-weight: 700; margin-bottom: .45rem; }
+    .faculty-card p { font-size: .83rem; color: var(--muted); margin-bottom: .6rem; }
+    .faculty-tags { display: flex; flex-wrap: wrap; gap: .3rem; }
+    .faculty-tags span { font-size: .66rem; font-weight: 700; background: #f1f5f9; color: #475569; border-radius: 5px; padding: .18rem .45rem; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between gap-2 py-3">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">VT</span>
+        <span class="brand-text"><span class="brand-name">Frontend Lab</span><span class="brand-sub">Department of CSE</span></span>
+      </a>
+      <a class="btn btn-ghost btn-sm" href="cse-department.html"><i class="bi bi-arrow-left me-1"></i> Department home</a>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container" style="max-width: 1000px;">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="cse-department.html">Department of CSE</a><span class="sep">/</span><span class="current">Faculty</span>
+      </nav>
+      <h1 class="page-title">Faculty</h1>
+      <p class="page-lead">A sample of the people who teach, supervise and occasionally debug alongside students.</p>
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="panel faculty-card">
+            <div class="avatar-mono" aria-hidden="true">MK</div>
+            <h2>Dr. Meera Krishnan</h2>
+            <p class="faculty-role">Professor &amp; Head of Department</p>
+            <p>Distributed systems, fault tolerance and the theory behind reliable infrastructure.</p>
+            <div class="faculty-tags"><span>Distributed systems</span><span>Consensus</span></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="panel faculty-card">
+            <div class="avatar-mono" aria-hidden="true">AV</div>
+            <h2>Dr. Arvind Venkatesh</h2>
+            <p class="faculty-role">Associate Professor</p>
+            <p>Computer vision and applied machine learning, with a focus on assistive technology.</p>
+            <div class="faculty-tags"><span>Vision</span><span>ML</span></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="panel faculty-card">
+            <div class="avatar-mono" aria-hidden="true">SN</div>
+            <h2>Prof. Sana Nair</h2>
+            <p class="faculty-role">Assistant Professor</p>
+            <p>Human–computer interaction, design systems and accessible interface engineering.</p>
+            <div class="faculty-tags"><span>HCI</span><span>Accessibility</span></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="panel faculty-card">
+            <div class="avatar-mono" aria-hidden="true">RB</div>
+            <h2>Dr. Rahul Banerjee</h2>
+            <p class="faculty-role">Assistant Professor</p>
+            <p>Cryptography, privacy-preserving protocols and secure systems engineering.</p>
+            <div class="faculty-tags"><span>Security</span><span>Privacy</span></div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="pager" aria-label="Department pages">
+        <a href="cse-overview.html"><i class="bi bi-arrow-left"></i> Overview</a>
+        <a href="cse-programs.html">Programs <i class="bi bi-arrow-right"></i></a>
+      </nav>
+    </div>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container"><div class="footer-bottom"><span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span><span><a href="exercises.html">Exercise index</a></span></div></div>
+  </footer>
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Travel Bucket List · Frontend Lab</title>
+  <meta name="description" content="Exercise 02 — a travel bucket list built with nested unordered lists.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .bucket-wrap { max-width: 880px; margin: 0 auto; }
+    .bucket-panel { overflow: hidden; }
+    .bucket-top {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 1rem; padding: 1.4rem 1.6rem;
+      background: linear-gradient(120deg, #0b1220, #123a3a);
+      color: #cbd5e1;
+    }
+    .bucket-top h2 { color: #fff; font-size: 1.24rem; margin: 0 0 .15rem; }
+    .bucket-top p { margin: 0; color: #94a3b8; font-size: .82rem; }
+    .traveler-tag {
+      display: inline-flex; align-items: center; gap: .45rem;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16);
+      border-radius: 999px; padding: .45rem .8rem; color: #e2e8f0; font-size: .8rem; font-weight: 650;
+    }
+    .traveler-tag .bi { color: #5eead4; }
+    .bucket-list { list-style: none; margin: 0; padding: 1.6rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .bucket-group { background: #f8fafc; border: 1px solid var(--line); border-radius: 14px; padding: 1.2rem 1.3rem; }
+    .bucket-label {
+      display: flex; align-items: center; gap: .55rem;
+      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--brand-strong); font-weight: 800; margin-bottom: .8rem;
+    }
+    .bucket-label .bi { font-size: .95rem; }
+    .bucket-group > ul { margin: 0; padding-left: 1.2rem; color: var(--body); }
+    .bucket-group > ul > li { padding: .45rem 0; font-size: .95rem; font-weight: 600; color: var(--ink); }
+    .bucket-group > ul > li::marker { color: var(--brand); }
+    .bucket-group li small { display: block; font-weight: 400; color: var(--muted); font-size: .79rem; margin-top: .1rem; }
+    .bucket-flag { margin-right: .35rem; }
+    .bucket-note { border-top: 1px dashed var(--line); padding: .9rem 1.6rem 1.2rem; color: var(--muted); font-size: .8rem; }
+    .bucket-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; margin-top: 1.2rem; }
+    .bucket-stats div { text-align: center; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: .8rem .6rem; }
+    .bucket-stats strong { display: block; color: var(--ink); font-size: 1.2rem; line-height: 1.1; }
+    .bucket-stats span { font-size: .68rem; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    @media (max-width: 767.98px) { .bucket-list { grid-template-columns: 1fr; padding: 1.1rem; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 01 · HTML foundations</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercise <span class="num">02</span></span>
+          <span class="chip chip-brand">Nested lists</span>
+          <span class="chip">HTML only</span>
+        </div>
+        <h1 class="page-title">My Travel Bucket List</h1>
+        <p class="page-lead">A shortlist of places to see and things to do, organised with a nested unordered list — countries first, activities second. Built for the Travel Club.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="bucket-wrap">
+          <article class="panel bucket-panel">
+            <div class="bucket-top">
+              <div>
+                <h2>My Travel Bucket List</h2>
+                <p>Places I want to see before I turn 25.</p>
+              </div>
+              <span class="traveler-tag"><i class="bi bi-person-circle"></i> Traveler: Vishal C Tantri</span>
+            </div>
+
+            <!-- Required nested unordered list -->
+            <ul class="bucket-list">
+              <li class="bucket-group">
+                <span class="bucket-label"><i class="bi bi-globe2"></i> Countries to Visit</span>
+                <ul>
+                  <li><span class="bucket-flag" aria-hidden="true">🇯🇵</span>Japan <small>Kyoto in cherry-blossom season and the Tokyo tech district.</small></li>
+                  <li><span class="bucket-flag" aria-hidden="true">🇨🇭</span>Switzerland <small>The Bernina Express route and a week in the Alps.</small></li>
+                  <li><span class="bucket-flag" aria-hidden="true">🇨🇦</span>Canada <small>Banff, Vancouver and a road trip through British Columbia.</small></li>
+                </ul>
+              </li>
+              <li class="bucket-group">
+                <span class="bucket-label"><i class="bi bi-compass"></i> Activities</span>
+                <ul>
+                  <li>Hiking <small>Multi-day trails with a light pack and a good camera.</small></li>
+                  <li>Scuba Diving <small>Start with a reef certification, then a liveaboard trip.</small></li>
+                  <li>Photography <small>Street, landscape and a proper travel journal to match.</small></li>
+                </ul>
+              </li>
+            </ul>
+
+            <p class="bucket-note mb-0"><i class="bi bi-info-circle me-1"></i> The two headings above are top-level list items; each place and activity is a nested <code>&lt;li&gt;</code> inside its own <code>&lt;ul&gt;</code>.</p>
+          </article>
+
+          <div class="bucket-stats">
+            <div><strong>3</strong><span>Countries</span></div>
+            <div><strong>3</strong><span>Activities</span></div>
+            <div><strong>2027</strong><span>First trip</span></div>
+          </div>
+
+          <p class="demo-credit"><strong>Created by Vishal C Tantri</strong> · 24MIC0068 · Travel Club</p>
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>Page title “My Travel Bucket List”</li>
+            <li>Traveler name displayed in the header card</li>
+            <li>Nested unordered list: countries + activities</li>
+            <li>Footer credit “Created by Vishal C Tantri”</li>
+            <li>Semantic list markup with custom styling</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="index.html"><i class="bi bi-arrow-left"></i> 01 · Personal portfolio</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="science-technology.html">03 · Science &amp; technology <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

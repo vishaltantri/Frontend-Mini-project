@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Employee ID Card · Frontend Lab</title>
+  <meta name="description" content="Exercise 06 — a centred, bordered employee ID card built from a div.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .id-stage { display: flex; justify-content: center; }
+    .id-card {
+      width: 360px;
+      max-width: 100%;
+      border: 2px solid #0b1220;
+      border-radius: 22px;
+      padding: 1.6rem;
+      text-align: center;
+      background: #fff;
+      box-shadow: 0 28px 50px -32px rgba(15, 23, 42, .55);
+      position: relative;
+      overflow: hidden;
+    }
+    .id-card::before {
+      content: ""; position: absolute; inset: 0 0 auto 0; height: 76px;
+      background: linear-gradient(120deg, #0b1220, #0f766e);
+    }
+    .id-logo {
+      position: relative; z-index: 1; display: flex; align-items: center; justify-content: center;
+      gap: .5rem; color: #fff; font-weight: 800; letter-spacing: .04em; font-size: .86rem;
+      padding: .1rem 0 1.35rem;
+    }
+    .id-logo img { width: 26px; height: 26px; }
+    .id-photo-wrap { position: relative; display: flex; justify-content: center; }
+    .id-photo {
+      width: 132px; height: 132px; border-radius: 50%; object-fit: cover;
+      border: 4px solid #fff; box-shadow: 0 8px 20px -12px rgba(15, 23, 42, .5);
+    }
+    .id-dot {
+      position: absolute; right: calc(50% - 66px); bottom: 4px; width: 22px; height: 22px;
+      background: #10b981; border: 3px solid #fff; border-radius: 50%;
+    }
+    .id-card h2 { font-size: 1.22rem; margin: 1rem 0 .1rem; }
+    .id-designation { color: var(--brand-strong); font-size: .84rem; font-weight: 700; letter-spacing: .02em; margin-bottom: .25rem; }
+    .id-company { color: var(--muted); font-size: .78rem; margin-bottom: 1.1rem; }
+    .id-details { text-align: left; border-top: 1px dashed var(--line); padding-top: .9rem; display: grid; gap: .55rem; }
+    .id-details div { display: flex; justify-content: space-between; gap: 1rem; font-size: .8rem; }
+    .id-details span { color: var(--muted); }
+    .id-details strong { color: var(--ink); font-weight: 650; letter-spacing: .02em; }
+    .id-stripe {
+      margin-top: 1.1rem; height: 34px; border-radius: 6px;
+      background: repeating-linear-gradient(90deg, #0b1220 0 2px, #fff 2px 4px, #0b1220 4px 7px, #fff 7px 11px);
+      opacity: .8;
+    }
+    .id-foot { font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: .55rem; margin-bottom: 0; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 02 · Divs &amp; layouts</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercise <span class="num">06</span></span>
+          <span class="chip chip-brand">Div</span>
+          <span class="chip">Centred card</span>
+        </div>
+        <h1 class="page-title">Employee ID card</h1>
+        <p class="page-lead">A single outer div acting as a staff ID card: fixed width, padding, a border and every detail centred inside it.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="id-stage">
+          <!-- Outer div representing the employee ID card -->
+          <div class="id-card">
+            <div class="id-logo"><img src="assets/img/logo-novatech.svg" alt="" width="26" height="26"> NOVATECH SYSTEMS</div>
+            <div class="id-photo-wrap">
+              <img class="id-photo" src="assets/img/employee-avatar.svg" width="132" height="132" alt="Employee photo of Ananya Rao">
+              <span class="id-dot" aria-label="Active employee"></span>
+            </div>
+            <h2>Ananya Rao</h2>
+            <p class="id-designation">Senior Product Designer</p>
+            <p class="id-company">NovaTech Systems · Bengaluru</p>
+            <div class="id-details">
+              <div><span>Employee ID</span><strong>NT-2041</strong></div>
+              <div><span>Department</span><strong>Product Design</strong></div>
+              <div><span>Blood group</span><strong>O+</strong></div>
+              <div><span>Valid through</span><strong>Dec 2028</strong></div>
+            </div>
+            <div class="id-stripe" aria-hidden="true"></div>
+            <p class="id-foot">Property of NovaTech · If found, please call +91 80 4000 1200</p>
+          </div>
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>Outer div representing the ID card</li>
+            <li>Employee photo, name, ID, designation and company</li>
+            <li>Border around the card</li>
+            <li>Centred content inside the div</li>
+            <li>Fixed width with padding for a neat layout</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="travel-destinations.html"><i class="bi bi-arrow-left"></i> 05 · Travel destinations</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="cse-department.html">07 · CSE department <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

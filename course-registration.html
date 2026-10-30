@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Course Registration · Frontend Lab</title>
+  <meta name="description" content="Exercise 25 — course registration with a department drop-down, a multi-select list box and JavaScript validation.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .course-wrap { max-width: 760px; margin: 0 auto; }
+    select[multiple] { min-height: 152px; padding: .5rem; }
+    select[multiple] option { padding: .45rem .55rem; border-radius: 6px; }
+    select[multiple] option:checked { background: #ccfbf1 linear-gradient(0deg, #ccfbf1, #ccfbf1); color: #0f766e; font-weight: 600; }
+    .dept-card { display: flex; gap: .6rem; align-items: flex-start; background: #f8fafc; border: 1px solid var(--line); border-radius: 10px; padding: .6rem .75rem; font-size: .78rem; color: var(--muted); }
+    .dept-card .bi { color: var(--brand); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 05 · JavaScript validation</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercise <span class="num">25</span></span>
+          <span class="chip chip-brand">Drop-down</span>
+          <span class="chip">Multi-select</span>
+        </div>
+        <h1 class="page-title">Course registration</h1>
+        <p class="page-lead">Choose a department and one or more programming languages. The name is checked with a regular expression, then the complete selection is shown as a summary.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="course-wrap">
+          <div class="panel panel-pad">
+            <h2 class="section-title" style="font-size:1.25rem;">Semester elective registration</h2>
+            <p class="section-lead mb-4" style="font-size:.88rem;">Open to second-year CSE students. Each student may choose up to four languages.</p>
+
+            <form id="courseForm" action="#" novalidate>
+              <div class="mb-3">
+                <label class="form-label" for="courseName">Student name <span class="req">*</span></label>
+                <input class="form-control" id="courseName" name="studentName" type="text" placeholder="Only alphabets and spaces" autocomplete="name">
+                <p class="field-error" id="courseNameError"></p>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label" for="courseDept">Department <span class="req">*</span></label>
+                <select class="form-select" id="courseDept" name="department">
+                  <option value="">Choose a department</option>
+                  <option value="CSE">CSE</option>
+                  <option value="IT">IT</option>
+                  <option value="ECE">ECE</option>
+                  <option value="EEE">EEE</option>
+                </select>
+                <p class="field-error" id="courseDeptError"></p>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label" for="courseLanguages">Programming languages <span class="req">*</span></label>
+                <select class="form-select" id="courseLanguages" name="languages" multiple size="4" aria-describedby="languageHint">
+                  <option value="Java">Java</option>
+                  <option value="Python">Python</option>
+                  <option value="JavaScript">JavaScript</option>
+                  <option value="C++">C++</option>
+                </select>
+                <p class="form-text" id="languageHint">Hold <span class="kbd">Ctrl</span> (or <span class="kbd">Cmd</span> on macOS) to select more than one language.</p>
+                <p class="field-error" id="courseLangError"></p>
+              </div>
+
+              <div class="dept-card mb-4">
+                <i class="bi bi-info-circle"></i>
+                <div>Limited seats: CSE 60, IT 45, ECE 30, EEE 30. Allocation is confirmed by the academic office.</div>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-brand" type="submit"><i class="bi bi-journal-check me-1"></i> Register course</button>
+                <button class="btn btn-outline-brand" type="reset">Clear</button>
+              </div>
+            </form>
+
+            <div class="output-panel mt-4" id="courseOutput" role="status" aria-live="polite" hidden></div>
+          </div>
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>Student name text box</li>
+            <li>Department drop-down (CSE, IT, ECE, EEE)</li>
+            <li>Multiple-selection programming-language list box</li>
+            <li>Name validated with an alphabets-and-spaces regex</li>
+            <li>Department and language selection required</li>
+            <li>Entered details displayed after validation</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="student-registration.html"><i class="bi bi-arrow-left"></i> 24 · Student registration</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="mouse-events.html">26–30 · Mouse events <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/course-registration.js"></script>
+</body>
+</html>

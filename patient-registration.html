@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patient Registration · CityCare Hospital</title>
+  <meta name="description" content="Exercise 20 — a professionally styled patient registration form using every major HTML5 input type.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .patient-stage {
+      position: relative;
+      padding: clamp(1rem, 3vw, 2.6rem);
+      border-radius: 24px;
+      background:
+        radial-gradient(700px 320px at 100% 0%, rgba(20, 184, 166, .35), transparent 62%),
+        radial-gradient(520px 280px at 0% 100%, rgba(124, 58, 237, .28), transparent 65%),
+        linear-gradient(130deg, #0b1220 0%, #103439 55%, #211340 100%);
+      overflow: hidden;
+    }
+    .patient-stage::before {
+      content: ""; position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,.13) 1px, transparent 1px);
+      background-size: 24px 24px; opacity: .35; pointer-events: none;
+      mask-image: linear-gradient(to bottom, #000, transparent 70%);
+    }
+    .patient-card {
+      position: relative;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 30px 70px -30px rgba(0, 0, 0, .6);
+      padding: clamp(1.2rem, 3vw, 2.2rem);
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .patient-card h2 { font-size: 1.35rem; margin-bottom: .2rem; }
+    .patient-card .sub { color: var(--muted); font-size: .87rem; margin-bottom: 1.4rem; }
+    .p-section { margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px dashed var(--line); }
+    .p-section:first-of-type { margin-top: 0; padding-top: 0; border-top: 0; }
+    .p-section h3 { font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; color: var(--brand-strong); margin-bottom: .9rem; }
+    .p-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .95rem 1.1rem; }
+    .p-grid .span-2 { grid-column: span 2; }
+    @media (max-width: 767.98px) { .p-grid { grid-template-columns: 1fr; } .p-grid .span-2 { grid-column: auto; } }
+    .pain-row { display: flex; align-items: center; gap: .8rem; }
+    .pain-row input[type="range"] { flex: 1; accent-color: var(--brand); }
+    .pain-readout { min-width: 92px; font-size: .8rem; font-weight: 700; color: var(--brand-strong); }
+    input[type="color"] { width: 100%; height: 42px; padding: 3px; cursor: pointer; }
+    .pay-image { max-width: 320px; width: 100%; height: auto; border: 0; background: transparent; cursor: pointer; border-radius: 16px; }
+    .pay-image:focus-visible { outline: 3px solid rgba(13,148,136,.5); outline-offset: 3px; }
+    .form-note { font-size: .78rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 04 · Forms &amp; media</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercise <span class="num">20</span></span>
+          <span class="chip chip-brand">HTML5 inputs</span>
+          <span class="chip">CSS3 grid</span>
+        </div>
+        <h1 class="page-title">Patient registration</h1>
+        <p class="page-lead">CityCare&rsquo;s reception form, covering twenty input types — from email, range and colour to datetime-local and an image button — laid out with CSS grid.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="patient-stage">
+          <div class="patient-card">
+            <div class="d-flex flex-wrap align-items-start justify-content-between gap-3">
+              <div>
+                <h2>New patient intake</h2>
+                <p class="sub">Fields marked <span class="req">*</span> are required. Your information stays in this browser.</p>
+              </div>
+              <span class="chip"><i class="bi bi-hospital"></i> CityCare · Vellore</span>
+            </div>
+
+            <div class="alert alert-success d-none" id="patientSuccess" role="status"></div>
+
+            <form id="patientForm" action="#">
+              <input type="hidden" id="patientId" name="patientId" value="VIT-PT-0068">
+
+              <div class="p-section">
+                <h3>Patient details</h3>
+                <div class="p-grid">
+                  <div>
+                    <label class="form-label" for="patName">Patient name <span class="req">*</span></label>
+                    <input class="form-control" id="patName" name="name" type="text" placeholder="Full name" minlength="3" maxlength="60" required>
+                  </div>
+                  <div>
+                    <label class="form-label" for="patEmail">Email address <span class="req">*</span></label>
+                    <input class="form-control" id="patEmail" name="email" type="email" placeholder="name@example.com" required>
+                  </div>
+                  <div>
+                    <label class="form-label" for="patPassword">Password <span class="req">*</span></label>
+                    <input class="form-control" id="patPassword" name="password" type="password" placeholder="At least 8 characters" minlength="8" required>
+                  </div>
+                  <div>
+                    <label class="form-label" for="patPhone">Contact number <span class="req">*</span></label>
+                    <input class="form-control" id="patPhone" name="phone" type="tel" placeholder="9876543210" pattern="[6-9][0-9]{9}" maxlength="10" required>
+                  </div>
+                  <div>
+                    <label class="form-label" for="patAge">Age</label>
+                    <input class="form-control" id="patAge" name="age" type="number" min="0" max="120" placeholder="e.g. 20">
+                  </div>
+                  <div>
+                    <label class="form-label" for="patDob">Date of birth</label>
+                    <input class="form-control" id="patDob" name="dob" type="date" max="2026-10-30">
+                  </div>
+                  <div>
+                    <label class="form-label" for="patGender">Gender</label>
+                    <div class="d-flex flex-wrap gap-3 pt-2">
+                      <div class="form-check"><input class="form-check-input" id="patFemale" name="gender" type="radio" value="Female"><label class="form-check-label" for="patFemale">Female</label></div>
+                      <div class="form-check"><input class="form-check-input" id="patMale" name="gender" type="radio" value="Male"><label class="form-check-label" for="patMale">Male</label></div>
+                      <div class="form-check"><input class="form-check-input" id="patOther" name="gender" type="radio" value="Other"><label class="form-check-label" for="patOther">Other</label></div>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="form-label" for="patBlood">Blood group</label>
+                    <select class="form-select" id="patBlood" name="bloodGroup">
+                      <option value="">Select a group</option>
+                      <option>A+</option><option>A−</option><option>B+</option><option>B−</option>
+                      <option>AB+</option><option>AB−</option><option>O+</option><option>O−</option>
+                    </select>
+                  </div>
+                  <div class="span-2">
+                    <label class="form-label" for="patAddress">Address</label>
+                    <textarea class="form-control" id="patAddress" name="address" rows="3" placeholder="House, street, city, PIN code" maxlength="240"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-section">
+                <h3>Appointment</h3>
+                <div class="p-grid">
+                  <div>
+                    <label class="form-label" for="patDate">Appointment date &amp; time <span class="req">*</span></label>
+                    <input class="form-control" id="patDate" name="appointment" type="datetime-local" min="2026-11-01T08:00" required>
+                  </div>
+                  <div>
+                    <label class="form-label" for="patTime">Preferred time</label>
+                    <input class="form-control" id="patTime" name="time" type="time" min="08:00" max="20:00">
+                  </div>
+                  <div>
+                    <label class="form-label" for="patSearch">Search doctor</label>
+                    <input class="form-control" id="patSearch" name="doctor" type="search" list="doctorList" placeholder="Start typing a name or speciality">
+                    <datalist id="doctorList">
+                      <option value="Dr. Meera Krishnan — Cardiology">
+                      <option value="Dr. Arvind Venkatesh — Neurology">
+                      <option value="Dr. Sana Nair — Dermatology">
+                      <option value="Dr. Rahul Banerjee — Orthopaedics">
+                      <option value="Dr. Kavya Iyer — General Medicine">
+                    </datalist>
+                  </div>
+                  <div>
+                    <label class="form-label" for="patUrl">Personal website / reference</label>
+                    <input class="form-control" id="patUrl" name="website" type="url" placeholder="https://">
+                  </div>
+                  <div>
+                    <label class="form-label" for="patColor">Favourite consultation colour</label>
+                    <input class="form-control" id="patColor" name="themeColor" type="color" value="#0d9488">
+                  </div>
+                  <div>
+                    <label class="form-label" for="patFile">Medical record upload</label>
+                    <input class="form-control" id="patFile" name="record" type="file" accept=".pdf,.jpg,.jpeg,.png">
+                    <p class="form-note mt-1 mb-0">PDF or image, up to 5 MB. Nothing is uploaded in this demo.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-section">
+                <h3>Medical information</h3>
+                <div class="p-grid">
+                  <div class="span-2">
+                    <label class="form-label" for="patPain">Pain level</label>
+                    <div class="pain-row">
+                      <input id="patPain" name="pain" type="range" min="0" max="10" step="1" value="3">
+                      <output class="pain-readout" id="painReadout" for="patPain">3 / 10 · mild</output>
+                    </div>
+                  </div>
+                  <fieldset class="span-2">
+                    <legend class="form-label">Known allergies</legend>
+                    <div class="d-flex flex-wrap gap-3">
+                      <div class="form-check"><input class="form-check-input" id="allergyPen" name="allergies" type="checkbox" value="Penicillin"><label class="form-check-label" for="allergyPen">Penicillin</label></div>
+                      <div class="form-check"><input class="form-check-input" id="allergyDust" name="allergies" type="checkbox" value="Dust"><label class="form-check-label" for="allergyDust">Dust</label></div>
+                      <div class="form-check"><input class="form-check-input" id="allergyPeanut" name="allergies" type="checkbox" value="Peanuts"><label class="form-check-label" for="allergyPeanut">Peanuts</label></div>
+                      <div class="form-check"><input class="form-check-input" id="allergyLatex" name="allergies" type="checkbox" value="Latex"><label class="form-check-label" for="allergyLatex">Latex</label></div>
+                      <div class="form-check"><input class="form-check-input" id="allergyNone" name="allergies" type="checkbox" value="None"><label class="form-check-label" for="allergyNone">None</label></div>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+
+              <div class="p-section d-flex flex-wrap align-items-center gap-2">
+                <button class="btn btn-brand" type="submit"><i class="bi bi-check2-circle me-1"></i> Submit registration</button>
+                <button class="btn btn-outline-brand" type="reset">Reset form</button>
+                <span class="ms-auto">
+                  <label for="patImage" class="visually-hidden">Confirm appointment and pay online</label>
+                  <input class="pay-image" id="patImage" type="image" src="assets/img/pay-confirm.svg" alt="Confirm appointment and pay online" width="360" height="64">
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>Text, email, password, tel, number, date, time, datetime-local</li>
+            <li>URL, search, colour, file and range inputs</li>
+            <li>Radio, checkbox, select, textarea and hidden inputs</li>
+            <li>Submit, reset and image buttons</li>
+            <li>Gradient background, box model, rounded corners and shadow</li>
+            <li>Two-column CSS grid that stacks on mobile</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="symposium-registration.html"><i class="bi bi-arrow-left"></i> 19 · Symposium registration</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="checkout.html">21 · Checkout &amp; payment <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      var pain = document.getElementById("patPain");
+      var readout = document.getElementById("painReadout");
+      function describe(value) {
+        if (value <= 2) return "mild";
+        if (value <= 5) return "moderate";
+        if (value <= 8) return "strong";
+        return "severe";
+      }
+      function update() { readout.textContent = pain.value + " / 10 · " + describe(Number(pain.value)); }
+      pain.addEventListener("input", update);
+      update();
+
+      var form = document.getElementById("patientForm");
+      var success = document.getElementById("patientSuccess");
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var name = document.getElementById("patName").value.trim();
+        success.className = "alert alert-success";
+        success.innerHTML = '<strong>Registration received.</strong> Thank you, ' + name.replace(/[<>&]/g, "") +
+          ". A confirmation would be sent to your email in the real portal. This is a frontend demo, so no data was stored.";
+        success.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+      form.addEventListener("reset", function () {
+        window.setTimeout(function () { success.className = "alert alert-success d-none"; success.innerHTML = ""; update(); }, 0);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Registration · Frontend Lab</title>
+  <meta name="description" content="Exercise 24 — student registration with JavaScript regular-expression validation for name and email.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .reg-card { max-width: 640px; margin: 0 auto; }
+    .reg-card h2 { font-size: 1.25rem; }
+    .success-panel {
+      display: none;
+      background: #ecfdf5;
+      border: 1px solid #99f6e4;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      color: #065f46;
+      font-size: .9rem;
+      margin-top: 1.2rem;
+    }
+    .success-panel.show { display: block; }
+    .success-panel strong { display: block; font-size: 1rem; margin-bottom: .2rem; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 05 · JavaScript validation</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercise <span class="num">24</span></span>
+          <span class="chip chip-brand">Regular expressions</span>
+          <span class="chip">Inline errors</span>
+        </div>
+        <h1 class="page-title">Student registration</h1>
+        <p class="page-lead">Name, email, gender and skills — each checked by JavaScript, with an error message directly below the field that failed and a success state when everything passes.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="reg-card">
+          <div class="panel panel-pad">
+            <h2>Create your student record</h2>
+            <p class="text-muted-2 mb-4" style="font-size:.88rem;">No data is sent anywhere; this form demonstrates client-side validation.</p>
+
+            <form id="studentForm" action="#" novalidate>
+              <div class="mb-3">
+                <label class="form-label" for="stuName">Student name <span class="req">*</span></label>
+                <input class="form-control" id="stuName" name="name" type="text" placeholder="e.g. Vishal C Tantri" autocomplete="name">
+                <p class="field-error" id="stuNameError"></p>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label" for="stuEmail">Email ID <span class="req">*</span></label>
+                <input class="form-control" id="stuEmail" name="email" type="text" placeholder="e.g. name@vitstudent.ac.in" autocomplete="email" inputmode="email">
+                <p class="field-error" id="stuEmailError"></p>
+              </div>
+
+              <fieldset class="mb-3">
+                <legend class="form-label">Gender <span class="req">*</span></legend>
+                <div class="d-flex flex-wrap gap-3">
+                  <div class="form-check"><input class="form-check-input" id="stuMale" name="gender" type="radio" value="Male"><label class="form-check-label" for="stuMale">Male</label></div>
+                  <div class="form-check"><input class="form-check-input" id="stuFemale" name="gender" type="radio" value="Female"><label class="form-check-label" for="stuFemale">Female</label></div>
+                  <div class="form-check"><input class="form-check-input" id="stuOther" name="gender" type="radio" value="Other"><label class="form-check-label" for="stuOther">Other</label></div>
+                </div>
+                <p class="field-error" id="stuGenderError"></p>
+              </fieldset>
+
+              <fieldset class="mb-4">
+                <legend class="form-label">Skills <span class="req">*</span></legend>
+                <div class="d-flex flex-wrap gap-3">
+                  <div class="form-check"><input class="form-check-input stu-skill" id="stuHtml" name="skills" type="checkbox" value="HTML"><label class="form-check-label" for="stuHtml">HTML</label></div>
+                  <div class="form-check"><input class="form-check-input stu-skill" id="stuCss" name="skills" type="checkbox" value="CSS"><label class="form-check-label" for="stuCss">CSS</label></div>
+                  <div class="form-check"><input class="form-check-input stu-skill" id="stuJs" name="skills" type="checkbox" value="JavaScript"><label class="form-check-label" for="stuJs">JavaScript</label></div>
+                </div>
+                <p class="field-error" id="stuSkillError"></p>
+              </fieldset>
+
+              <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-brand" type="submit"><i class="bi bi-person-check me-1"></i> Register</button>
+                <button class="btn btn-outline-brand" type="reset">Clear</button>
+              </div>
+            </form>
+
+            <div class="success-panel" id="stuSuccess" role="status" aria-live="polite">
+              <strong>Registration Successful</strong>
+              <span id="stuSuccessText"></span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>Name with an alphabets-and-spaces regex</li>
+            <li>Email format checked with a regex</li>
+            <li>At least one gender must be selected</li>
+            <li>At least one skill must be checked</li>
+            <li>Error text below each field</li>
+            <li>“Registration Successful” on valid input</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="student-login.html#validation"><i class="bi bi-arrow-left"></i> 23 · Login validation</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="course-registration.html">25 · Course registration <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/student-registration.js"></script>
+</body>
+</html>

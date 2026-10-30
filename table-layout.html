@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Department Portal · Table Layout</title>
+  <meta name="description" content="Exercise 08 — a complete website layout built with HTML tables: header, sidebars, content and footer.">
+</head>
+<body style="margin:0;padding:18px;background:#e9eff6;font-family:'Segoe UI',Arial,sans-serif;color:#334155;">
+
+  <!-- Exercise 08 · classic table-based page layout; the wrapper keeps small screens usable -->
+  <div style="overflow-x:auto;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:1040px;margin:0 auto;background:#ffffff;border:1px solid #cbd5e1;box-shadow:0 10px 30px rgba(15,23,42,.12);">
+    <tr>
+      <td colspan="3" style="background:#0b1220;padding:16px 22px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td align="left" style="color:#ffffff;font-size:18px;font-weight:700;">
+              Frontend Lab <span style="color:#5eead4;font-weight:400;font-size:12px;letter-spacing:1px;">&nbsp;DEPARTMENT PORTAL</span>
+            </td>
+            <td align="right" style="font-size:13px;">
+              <a href="#main-content" style="color:#e2e8f0;text-decoration:none;padding:4px 8px;">Home</a>
+              <a href="#main-content" style="color:#e2e8f0;text-decoration:none;padding:4px 8px;">Departments</a>
+              <a href="#main-content" style="color:#e2e8f0;text-decoration:none;padding:4px 8px;">Programs</a>
+              <a href="#main-content" style="color:#e2e8f0;text-decoration:none;padding:4px 8px;">Research</a>
+              <a href="#main-content" style="color:#e2e8f0;text-decoration:none;padding:4px 8px;">Contact</a>
+              <a href="exercises.html" style="color:#5eead4;text-decoration:none;padding:4px 8px;">&larr; Exercises</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="3" style="background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:10px 22px;font-size:12px;color:#64748b;">
+        Home &nbsp;&rsaquo;&nbsp; Academics &nbsp;&rsaquo;&nbsp; Department of Computer Science
+        <span style="float:right;">Exercise 08 &middot; table layout</span>
+      </td>
+    </tr>
+
+    <tr>
+      <!-- LEFT COLUMN -->
+      <td width="21%" valign="top" style="padding:18px 14px 24px 22px;border-right:1px solid #e2e8f0;background:#fbfdff;">
+        <p style="margin:0 0 8px;font-size:11px;letter-spacing:1.2px;font-weight:700;color:#0f766e;">DEPARTMENT</p>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size:13px;">
+          <tr><td style="padding:7px 0;border-bottom:1px dotted #dbe3ec;"><a href="cse-overview.html" style="color:#334155;text-decoration:none;">Overview</a></td></tr>
+          <tr><td style="padding:7px 0;border-bottom:1px dotted #dbe3ec;"><a href="cse-faculty.html" style="color:#334155;text-decoration:none;">Faculty</a></td></tr>
+          <tr><td style="padding:7px 0;border-bottom:1px dotted #dbe3ec;"><a href="cse-programs.html" style="color:#334155;text-decoration:none;">Programs</a></td></tr>
+          <tr><td style="padding:7px 0;border-bottom:1px dotted #dbe3ec;"><a href="cse-research.html" style="color:#334155;text-decoration:none;">Research</a></td></tr>
+          <tr><td style="padding:7px 0;"><a href="cse-contact.html" style="color:#334155;text-decoration:none;">Contact us</a></td></tr>
+        </table>
+
+        <p style="margin:22px 0 8px;font-size:11px;letter-spacing:1.2px;font-weight:700;color:#0f766e;">ON CAMPUS</p>
+        <p style="margin:0;font-size:12px;line-height:1.7;color:#64748b;">Silver Jubilee Tower<br>VIT Vellore<br>Tamil Nadu 632014</p>
+      </td>
+
+      <!-- CENTRE COLUMN -->
+      <td width="55%" valign="top" style="padding:20px 22px 26px;" id="main-content">
+        <img src="assets/img/campus-3.jpg" alt="University building and lawn at VIT Vellore" width="560" style="width:100%;height:auto;border:4px solid #ffffff;outline:1px solid #dbe3ec;display:block;">
+        <h1 style="margin:16px 0 6px;font-size:24px;line-height:1.25;color:#0b1220;">Department of Computer Science</h1>
+        <p style="margin:0 0 12px;font-size:11px;letter-spacing:1px;color:#0f766e;font-weight:700;">WELCOME TO THE DEPARTMENT PORTAL</p>
+        <p style="margin:0 0 12px;font-size:14px;line-height:1.75;">This page uses the table element for its entire layout — a header across the top, a left navigation column, a central content column, a right notice column and a footer. Each region is a table cell with width, padding and background attributes.</p>
+        <p style="margin:0 0 16px;font-size:14px;line-height:1.75;">Before CSS grid and flexbox, tables like this were how most sites were built. The markup is heavier and not responsive, but it shows the structural idea clearly: content arranged in rows and columns, with every block in a predictable place.</p>
+
+        <table width="100%" cellpadding="0" cellspacing="10" border="0">
+          <tr>
+            <td width="50%" valign="top" style="background:#f0fdfa;border:1px solid #99f6e4;padding:12px;">
+              <strong style="font-size:13px;color:#0f766e;">Undergraduate</strong>
+              <p style="margin:6px 0 0;font-size:12px;line-height:1.6;color:#475569;">B.Tech CSE and IT, with a two-semester capstone and lab work every term.</p>
+            </td>
+            <td width="50%" valign="top" style="background:#f5f3ff;border:1px solid #ddd6fe;padding:12px;">
+              <strong style="font-size:13px;color:#6d28d9;">Research</strong>
+              <p style="margin:6px 0 0;font-size:12px;line-height:1.6;color:#475569;">Systems, vision, security and interaction design across fourteen labs.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+
+      <!-- RIGHT COLUMN -->
+      <td width="24%" valign="top" style="padding:18px 22px 24px 14px;border-left:1px solid #e2e8f0;background:#fbfdff;">
+        <div style="background:#0b1220;padding:12px;margin-bottom:16px;">
+          <p style="margin:0 0 4px;color:#5eead4;font-size:10px;letter-spacing:1.2px;font-weight:700;">NOTICE BOARD</p>
+          <p style="margin:0;color:#e2e8f0;font-size:12px;line-height:1.6;">TechNova &rsquo;26 registrations are open until 20 November.</p>
+        </div>
+        <p style="margin:0 0 8px;font-size:11px;letter-spacing:1.2px;font-weight:700;color:#0f766e;">AT A GLANCE</p>
+        <p style="margin:0 0 6px;font-size:12px;color:#64748b;">Students <strong style="float:right;color:#0b1220;">2,400+</strong></p>
+        <p style="margin:0 0 6px;font-size:12px;color:#64748b;">Faculty <strong style="float:right;color:#0b1220;">120</strong></p>
+        <p style="margin:0 0 16px;font-size:12px;color:#64748b;">Labs <strong style="float:right;color:#0b1220;">14</strong></p>
+        <p style="margin:0 0 8px;font-size:11px;letter-spacing:1.2px;font-weight:700;color:#0f766e;">QUICK LINKS</p>
+        <p style="margin:0;font-size:12px;line-height:2;">
+          <a href="symposium-registration.html" style="color:#0f766e;">Symposium registration</a><br>
+          <a href="student-login.html" style="color:#0f766e;">Student login</a><br>
+          <a href="library-management.html" style="color:#0f766e;">Library</a>
+        </p>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="3" style="background:#0b1220;color:#94a3b8;padding:16px 22px;font-size:12px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td>&copy; 2026 Vishal C Tantri &middot; 24MIC0068 &middot; Frontend Lab</td>
+            <td align="right"><a href="exercises.html" style="color:#5eead4;text-decoration:none;">Back to exercise index</a></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GameZone · Esports Club</title>
+  <meta name="description" content="Exercise 14 — a fixed gaming header, horizontal navigation and a 70vh image slider banner, built with HTML, CSS and JavaScript.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <style>
+    :root { --violet:#7c3aed; --violet-2:#a78bfa; --ink:#07070f; --line:rgba(255,255,255,.12); }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; padding-top: 64px; background: #090914; color: #cbd5e1; font-family: "Segoe UI", system-ui, Arial, sans-serif; line-height: 1.6; }
+    a { color: inherit; }
+
+    /* Fixed header */
+    .gz-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(7, 7, 15, .9); border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+    .gz-nav { max-width: 1200px; margin: 0 auto; padding: 12px 22px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+    .gz-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-size: 21px; font-weight: 800; letter-spacing: -.3px; }
+    .gz-brand img { width: 38px; height: 38px; }
+    .gz-brand > span { color: var(--violet-2); }
+    .gz-links { margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+    .gz-links a {
+      color: #cbd5e1; text-decoration: none; font-size: 13.5px; font-weight: 600;
+      padding: 8px 13px; border-radius: 8px; transition: background .18s ease, color .18s ease;
+    }
+    .gz-links a:hover, .gz-links a:focus-visible { background: rgba(255,255,255,.08); color: #fff; }
+    .gz-play {
+      display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+      background: linear-gradient(120deg, var(--violet), #c026d3); color: #fff !important;
+      font-size: 13px; font-weight: 800; padding: 10px 20px; border-radius: 999px; margin-left: 8px;
+      box-shadow: 0 10px 26px rgba(124, 58, 237, .35);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .gz-play:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(124, 58, 237, .5); }
+    @media (max-width: 767.98px) {
+      body { padding-top: 108px; }
+      .gz-links { width: 100%; margin-left: 0; }
+      .gz-play { margin-left: 0; }
+    }
+
+    /* Hero slider */
+    .gz-hero { position: relative; height: 70vh; min-height: 470px; max-height: 780px; overflow: hidden; display: flex; align-items: center; }
+    .gz-slide {
+      position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease;
+      background-position: center; background-size: cover;
+    }
+    .gz-slide.is-active { opacity: 1; }
+    .gz-slide::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(7,7,15,.78) 0%, rgba(7,7,15,.55) 40%, rgba(7,7,15,.92) 100%),
+                  linear-gradient(90deg, rgba(30,10,60,.55), transparent 60%);
+    }
+    .gz-copy { position: relative; z-index: 2; width: 100%; max-width: 1200px; margin: 0 auto; padding: 80px 22px 40px; text-align: center; }
+    .gz-kicker {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 2px; font-weight: 800;
+      color: #c4b5fd; text-transform: uppercase; border: 1px solid rgba(167, 139, 250, .4);
+      background: rgba(124, 58, 237, .16); padding: 6px 13px; border-radius: 999px; margin-bottom: 16px;
+    }
+    .gz-copy h1 {
+      margin: 0 auto 14px; max-width: 17ch; color: #fff;
+      font-size: clamp(34px, 6vw, 68px); line-height: 1.03; letter-spacing: -1.6px;
+      text-shadow: 0 12px 40px rgba(0,0,0,.5);
+    }
+    .gz-copy p { max-width: 52ch; margin: 0 auto 26px; color: #cbd5e1; font-size: clamp(14px, 2vw, 17px); }
+    .gz-cta {
+      display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+      background: #fff; color: #0b0718; font-weight: 800; font-size: 14px;
+      padding: 13px 26px; border-radius: 999px; transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      box-shadow: 0 14px 34px rgba(255,255,255,.12);
+    }
+    .gz-cta:hover { transform: translateY(-2px); background: #ede9fe; box-shadow: 0 18px 40px rgba(196,181,253,.28); }
+    .gz-dots { position: absolute; z-index: 3; left: 50%; bottom: 22px; transform: translateX(-50%); display: flex; gap: 8px; }
+    .gz-dots button {
+      width: 26px; height: 5px; border-radius: 999px; border: 0; cursor: pointer;
+      background: rgba(255,255,255,.28); padding: 0; transition: background .2s ease, width .2s ease;
+    }
+    .gz-dots button[aria-current="true"] { background: var(--violet-2); width: 40px; }
+
+    /* Content */
+    .gz-section { max-width: 1200px; margin: 0 auto; padding: 54px 22px 10px; }
+    .gz-section-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
+    .gz-eyebrow { margin: 0 0 4px; font-size: 11px; letter-spacing: 1.8px; font-weight: 800; color: var(--violet-2); text-transform: uppercase; }
+    .gz-section h2 { margin: 0; color: #fff; font-size: clamp(22px, 3vw, 30px); letter-spacing: -.6px; }
+    .gz-section-head p { margin: 0; color: #94a3b8; font-size: 13px; max-width: 46ch; }
+    .gz-games { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+    .gz-game {
+      background: #0f0f1e; border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .gz-game:hover { transform: translateY(-4px); border-color: rgba(167,139,250,.45); }
+    .gz-game img { width: 100%; height: 160px; object-fit: cover; display: block; filter: saturate(1.05); }
+    .gz-game .body { padding: 15px 17px 18px; }
+    .gz-game h3 { margin: 0 0 3px; color: #fff; font-size: 16px; }
+    .gz-game p { margin: 0 0 12px; font-size: 12.5px; color: #94a3b8; }
+    .gz-game .tag { display: inline-block; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 800; color: #c4b5fd; background: rgba(124,58,237,.16); border: 1px solid rgba(124,58,237,.3); padding: 3px 8px; border-radius: 5px; }
+    .gz-tournaments { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+    .gz-tour { background: linear-gradient(140deg, #101024, #0a0a16); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+    .gz-tour .date { color: var(--violet-2); font-size: 11px; letter-spacing: 1.4px; font-weight: 800; text-transform: uppercase; }
+    .gz-tour h3 { color: #fff; margin: 5px 0 4px; font-size: 16px; }
+    .gz-tour p { margin: 0; color: #94a3b8; font-size: 13px; }
+    .gz-footer { margin-top: 46px; border-top: 1px solid var(--line); padding: 22px; font-size: 12px; color: #7f8ea3; }
+    .gz-footer div { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; }
+    .gz-footer a { color: var(--violet-2); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <!-- Exercise 14 · fixed gaming header + image slider -->
+  <header class="gz-header">
+    <nav class="gz-nav" aria-label="Gaming navigation">
+      <a class="gz-brand" href="#home"><img src="assets/img/logo-gamezone.svg" alt="" width="38" height="38"> Game<span>Zone</span></a>
+      <div class="gz-links">
+        <a href="#home">Home</a>
+        <a href="#games">Games</a>
+        <a href="#tournaments">Tournaments</a>
+        <a href="#news">News</a>
+        <a href="#contact">Contact</a>
+        <a class="gz-play" href="#games">Play Now <span aria-hidden="true">&rarr;</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="home">
+    <section class="gz-hero" aria-label="Featured gaming banner">
+      <div class="gz-slide is-active" style="background-image:url('assets/img/gaming-hero.jpg')"></div>
+      <div class="gz-slide" style="background-image:url('assets/img/gaming-2.jpg')"></div>
+      <div class="gz-slide" style="background-image:url('assets/img/gaming-3.jpg')"></div>
+
+      <div class="gz-copy">
+        <span class="gz-kicker">GameZone &middot; VIT Esports Club</span>
+        <h1>Level Up Your Gaming Experience</h1>
+        <p>Join exciting tournaments and explore the latest games.</p>
+        <a class="gz-cta" href="#games">Explore Games <span aria-hidden="true">&rarr;</span></a>
+      </div>
+
+      <div class="gz-dots" aria-label="Banner slides">
+        <button type="button" aria-current="true" aria-label="Show slide 1"></button>
+        <button type="button" aria-current="false" aria-label="Show slide 2"></button>
+        <button type="button" aria-current="false" aria-label="Show slide 3"></button>
+      </div>
+    </section>
+
+    <section class="gz-section" id="games">
+      <div class="gz-section-head">
+        <div>
+          <p class="gz-eyebrow">Now on the roster</p>
+          <h2>Featured games</h2>
+        </div>
+        <p>Three titles the club is running this semester, from couch co-op to competitive shooters.</p>
+      </div>
+      <div class="gz-games">
+        <article class="gz-game">
+          <img src="assets/img/gaming-hero.jpg" alt="Player at a gaming PC with multiple monitors" loading="lazy">
+          <div class="body">
+            <span class="tag">FPS</span>
+            <h3>Valorant</h3>
+            <p>5v5 tactical rounds &middot; practice every Wednesday.</p>
+          </div>
+        </article>
+        <article class="gz-game">
+          <img src="assets/img/gaming-2.jpg" alt="Neon-lit arcade gaming floor" loading="lazy">
+          <div class="body">
+            <span class="tag">Arcade</span>
+            <h3>Retro Arena</h3>
+            <p>Classic cabinets and a monthly high-score ladder.</p>
+          </div>
+        </article>
+        <article class="gz-game">
+          <img src="assets/img/gaming-3.jpg" alt="Retro consoles and controllers under coloured light" loading="lazy">
+          <div class="body">
+            <span class="tag">Co-op</span>
+            <h3>Console Nights</h3>
+            <p>Four-player couch co-op, snacks included.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="gz-section" id="tournaments">
+      <div class="gz-section-head">
+        <div>
+          <p class="gz-eyebrow">Compete</p>
+          <h2>Upcoming tournaments</h2>
+        </div>
+        <p>Open to all VIT students. Register at the esports desk in the student activity centre.</p>
+      </div>
+      <div class="gz-tournaments">
+        <div class="gz-tour">
+          <span class="date">12 November 2026</span>
+          <h3>Campus Clash — Valorant</h3>
+          <p>16 teams, single elimination, LAN finals on the main stage.</p>
+        </div>
+        <div class="gz-tour">
+          <span class="date">19 November 2026</span>
+          <h3>FIFA Night</h3>
+          <p>1v1 bracket on consoles. Bring your own controller if you have one.</p>
+        </div>
+        <div class="gz-tour">
+          <span class="date">28 November 2026</span>
+          <h3>TechNova Esports Cup</h3>
+          <p>Part of the national symposium. Spectators welcome all day.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="gz-section" id="news">
+      <div class="gz-section-head">
+        <div>
+          <p class="gz-eyebrow">News</p>
+          <h2>From the club</h2>
+        </div>
+      </div>
+      <div class="gz-tournaments">
+        <div class="gz-tour">
+          <span class="date">Club update</span>
+          <h3>New practice room open</h3>
+          <p>The second-floor lab now has ten stations and fibre internet, open 6–10 pm on weekdays.</p>
+        </div>
+        <div class="gz-tour">
+          <span class="date">Results</span>
+          <h3>Second place at Inter-VIT</h3>
+          <p>Our Valorant roster took the runner-up spot in a 32-team bracket at Chennai.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="gz-footer" id="contact">
+    <div>
+      <span>&copy; 2026 GameZone demo &middot; Built by <strong style="color:#e2e8f0;">Vishal C Tantri (24MIC0068)</strong></span>
+      <span><a href="exercises.html">Exercise index</a> &nbsp;&middot;&nbsp; <a href="index.html">Portfolio</a></span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+      // Keep the page content clear of the fixed header at every width.
+      function syncHeaderHeight() {
+        var header = document.querySelector(".gz-header");
+        if (header) document.body.style.paddingTop = header.offsetHeight + "px";
+      }
+      syncHeaderHeight();
+      window.addEventListener("load", syncHeaderHeight);
+      window.addEventListener("resize", syncHeaderHeight);
+
+      var slides = Array.prototype.slice.call(document.querySelectorAll(".gz-slide"));
+      var dots = Array.prototype.slice.call(document.querySelectorAll(".gz-dots button"));
+      var index = 0;
+      var timer;
+
+      function show(next) {
+        index = (next + slides.length) % slides.length;
+        slides.forEach(function (slide, i) { slide.classList.toggle("is-active", i === index); });
+        dots.forEach(function (dot, i) { dot.setAttribute("aria-current", i === index ? "true" : "false"); });
+      }
+
+      function start() {
+        stop();
+        timer = window.setInterval(function () { show(index + 1); }, 5500);
+      }
+      function stop() { if (timer) window.clearInterval(timer); }
+
+      dots.forEach(function (dot, i) {
+        dot.addEventListener("click", function () { show(i); start(); });
+      });
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) stop(); else start();
+      });
+      start();
+    })();
+  </script>
+</body>
+</html>

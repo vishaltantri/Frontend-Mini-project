@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TechNova '26 Registration · Frontend Lab</title>
+  <meta name="description" content="Exercise 19 — National Technical Symposium registration portal with HTML5 input types, media elements and validation.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .sym-banner {
+      background: linear-gradient(125deg, #0b1220, #123a3a 60%, #2a1358);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.6rem;
+      color: #cbd5e1;
+      position: relative;
+      overflow: hidden;
+    }
+    .sym-banner::after {
+      content: ""; position: absolute; width: 240px; height: 240px; right: -90px; top: -100px;
+      background: radial-gradient(circle, rgba(20,184,166,.45), transparent 70%);
+    }
+    .sym-banner .tag { font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: #5eead4; font-weight: 800; }
+    .sym-banner h2 { color: #fff; font-size: 1.55rem; margin: .35rem 0 .4rem; letter-spacing: -.03em; }
+    .sym-banner p { color: #a9b8cb; font-size: .85rem; margin-bottom: 1rem; }
+    .sym-meta { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; position: relative; z-index: 1; }
+    .sym-meta div { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 9px; padding: .5rem .7rem; }
+    .sym-meta span { display: block; font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: #94a3b8; font-weight: 700; }
+    .sym-meta strong { color: #fff; font-size: .82rem; }
+    .media-card { padding: 1.1rem; }
+    .media-card h3 { font-size: .95rem; margin-bottom: .3rem; }
+    .media-card p { font-size: .8rem; color: var(--muted); }
+    .media-card video { width: 100%; border-radius: 10px; display: block; background: #0b1220; }
+    .media-card audio { width: 100%; margin-top: .7rem; }
+    .skill-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .45rem .8rem; }
+    @media (max-width: 575.98px) { .skill-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .sym-meta { grid-template-columns: 1fr; } }
+    .summary-table { font-size: .86rem; }
+    .summary-table th { width: 34%; color: var(--muted); font-weight: 600; }
+    .sticky-lg { position: sticky; top: 92px; }
+    @media (max-width: 991.98px) { .sticky-lg { position: static; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 04 · Forms &amp; media</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercise <span class="num">19</span></span>
+          <span class="chip chip-brand">HTML5 inputs</span>
+          <span class="chip">Video + audio</span>
+        </div>
+        <h1 class="page-title">TechNova &rsquo;26 registration</h1>
+        <p class="page-lead">The National Technical Symposium registration portal — participant details, skills, ID upload and event date, with a promotional video and a spoken welcome for every delegate.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <div class="panel panel-pad">
+              <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                <div>
+                  <p class="small-caps mb-1">Registration form</p>
+                  <h2 class="section-title mb-0" style="font-size:1.3rem;">Participant details</h2>
+                </div>
+                <span class="chip chip-brand"><i class="bi bi-calendar-event"></i> 28 November 2026</span>
+              </div>
+
+              <form id="symForm" action="#">
+                <div class="form-grid">
+                  <div>
+                    <label class="form-label" for="symName">Participant name <span class="req">*</span></label>
+                    <input class="form-control" id="symName" name="name" type="text" placeholder="e.g. Vishal C Tantri"
+                           minlength="3" maxlength="50" pattern="[A-Za-z .'\-]{3,50}" required
+                           title="Use letters, spaces, apostrophes or hyphens only.">
+                  </div>
+                  <div>
+                    <label class="form-label" for="symReg">Register number <span class="req">*</span></label>
+                    <input class="form-control" id="symReg" name="registerNumber" type="text" placeholder="24MIC0068"
+                           maxlength="9" pattern="[0-9]{2}[A-Za-z]{3}[0-9]{4}" required
+                           title="Format: two digits, three letters, four digits (e.g. 24MIC0068).">
+                  </div>
+                  <div class="span-2">
+                    <label class="form-label" for="symCollege">College name <span class="req">*</span></label>
+                    <input class="form-control" id="symCollege" name="college" type="text" placeholder="Vellore Institute of Technology"
+                           minlength="3" maxlength="80" required>
+                  </div>
+                  <div>
+                    <label class="form-label" for="symEmail">Email ID <span class="req">*</span></label>
+                    <input class="form-control" id="symEmail" name="email" type="email" placeholder="name@vitstudent.ac.in" required>
+                  </div>
+                  <div>
+                    <label class="form-label" for="symPhone">Mobile number <span class="req">*</span></label>
+                    <input class="form-control" id="symPhone" name="mobile" type="tel" placeholder="9876543210"
+                           maxlength="10" pattern="[6-9][0-9]{9}" required title="Enter a 10-digit Indian mobile number.">
+                  </div>
+                  <div>
+                    <label class="form-label" for="symDob">Date of birth <span class="req">*</span></label>
+                    <input class="form-control" id="symDob" name="dob" type="date" min="2000-01-01" max="2010-12-31" required>
+                  </div>
+                  <div>
+                    <label class="form-label" for="symEvent">Event date <span class="req">*</span></label>
+                    <input class="form-control" id="symEvent" name="eventDate" type="date" value="2026-11-28" min="2026-11-28" max="2026-11-28" required>
+                    <p class="form-text">The symposium runs for one day only.</p>
+                  </div>
+
+                  <fieldset class="span-2">
+                    <legend class="form-label">Gender <span class="req">*</span></legend>
+                    <div class="d-flex flex-wrap gap-3">
+                      <div class="form-check">
+                        <input class="form-check-input" id="symMale" name="gender" type="radio" value="Male" required>
+                        <label class="form-check-label" for="symMale">Male</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" id="symFemale" name="gender" type="radio" value="Female">
+                        <label class="form-check-label" for="symFemale">Female</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" id="symOther" name="gender" type="radio" value="Other">
+                        <label class="form-check-label" for="symOther">Other</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" id="symPrefer" name="gender" type="radio" value="Prefer not to say">
+                        <label class="form-check-label" for="symPrefer">Prefer not to say</label>
+                      </div>
+                    </div>
+                  </fieldset>
+
+                  <div class="span-2">
+                    <label class="form-label" for="symDept">Department <span class="req">*</span></label>
+                    <select class="form-select" id="symDept" name="department" required>
+                      <option value="">Choose your department</option>
+                      <option>Computer Science &amp; Engineering</option>
+                      <option>Information Technology</option>
+                      <option>Electronics &amp; Communication</option>
+                      <option>Electrical &amp; Electronics</option>
+                      <option>Mechanical Engineering</option>
+                      <option>Civil Engineering</option>
+                      <option>Biotechnology</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+
+                  <fieldset class="span-2">
+                    <legend class="form-label">Technical skills <span class="req">*</span></legend>
+                    <div class="skill-grid">
+                      <div class="form-check"><input class="form-check-input skill-check" id="skillHtml" name="skills" type="checkbox" value="HTML"><label class="form-check-label" for="skillHtml">HTML</label></div>
+                      <div class="form-check"><input class="form-check-input skill-check" id="skillCss" name="skills" type="checkbox" value="CSS"><label class="form-check-label" for="skillCss">CSS</label></div>
+                      <div class="form-check"><input class="form-check-input skill-check" id="skillJs" name="skills" type="checkbox" value="JavaScript"><label class="form-check-label" for="skillJs">JavaScript</label></div>
+                      <div class="form-check"><input class="form-check-input skill-check" id="skillPy" name="skills" type="checkbox" value="Python"><label class="form-check-label" for="skillPy">Python</label></div>
+                      <div class="form-check"><input class="form-check-input skill-check" id="skillDesign" name="skills" type="checkbox" value="UI design"><label class="form-check-label" for="skillDesign">UI design</label></div>
+                      <div class="form-check"><input class="form-check-input skill-check" id="skillRobotics" name="skills" type="checkbox" value="Robotics"><label class="form-check-label" for="skillRobotics">Robotics</label></div>
+                    </div>
+                    <p class="field-error" id="skillError">Select at least one technical skill.</p>
+                  </fieldset>
+
+                  <div class="span-2">
+                    <label class="form-label" for="symId">Upload student ID card <span class="req">*</span></label>
+                    <input class="form-control" id="symId" name="studentId" type="file" accept=".jpg,.jpeg,.png,.pdf" required>
+                    <p class="form-text">JPG, PNG or PDF · up to 2 MB. This demo does not upload the file anywhere.</p>
+                  </div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                  <button class="btn btn-brand" type="submit"><i class="bi bi-send me-1"></i> Submit registration</button>
+                  <button class="btn btn-outline-brand" type="reset">Reset form</button>
+                </div>
+              </form>
+
+              <div class="output-panel mt-4" id="symOutput" role="status" aria-live="polite" hidden></div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="sticky-lg">
+              <div class="sym-banner mb-3">
+                <span class="tag">National Technical Symposium</span>
+                <h2>TechNova &rsquo;26</h2>
+                <p>Three days of talks, hackathons and demos at VIT Vellore. This portal covers the main conference day.</p>
+                <div class="sym-meta">
+                  <div><span>Date</span><strong>28 Nov 2026</strong></div>
+                  <div><span>Venue</span><strong>Anna Auditorium</strong></div>
+                  <div><span>Check-in</span><strong>8:30 am</strong></div>
+                  <div><span>Fee</span><strong>Free for VIT</strong></div>
+                </div>
+              </div>
+
+              <div class="panel media-card mb-3">
+                <h3><i class="bi bi-play-btn me-1" style="color:var(--brand);"></i> Promo video</h3>
+                <p>A 12-second look at what the day looks like.</p>
+                <video controls preload="metadata" poster="assets/img/campus-2.jpg" width="1280" height="720">
+                  <source src="assets/media/symposium-promo.mp4" type="video/mp4">
+                  Your browser does not support the video element.
+                  <a href="assets/media/symposium-promo.mp4">Download the promo video</a>.
+                </video>
+              </div>
+
+              <div class="panel media-card">
+                <h3><i class="bi bi-volume-up me-1" style="color:var(--brand);"></i> Audio welcome</h3>
+                <p>A short welcome message for participants.</p>
+                <audio controls preload="metadata" src="assets/media/symposium-welcome.mp3">
+                  Your browser does not support the audio element.
+                  <a href="assets/media/symposium-welcome.mp3">Download the welcome message</a>.
+                </audio>
+                <p class="mb-0 mt-2"><small>Prefer reading? The registration desk is open from 8 am in the auditorium foyer.</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>Name, register number, college, email, mobile</li>
+            <li>Date of birth and event date inputs</li>
+            <li>Gender radio group and department select</li>
+            <li>Technical skills checkboxes</li>
+            <li>Student ID file upload</li>
+            <li>Required, pattern, minlength, maxlength, placeholder</li>
+            <li>Promotional video and audio welcome message</li>
+            <li>Submit and reset buttons</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="student-login.html"><i class="bi bi-arrow-left"></i> 18 · Student login</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="patient-registration.html">20 · Patient registration <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/symposium.js"></script>
+</body>
+</html>

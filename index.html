@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vishal C Tantri · Frontend Lab</title>
+  <meta name="description" content="Frontend Lab — the frontend design mini project by Vishal C Tantri (24MIC0068): 36 frontend design exercises built into one static website with HTML, CSS, JavaScript and Bootstrap.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Hero / portfolio identity -->
+    <section class="portfolio-hero">
+      <div class="container">
+        <div class="row align-items-center g-4 g-lg-5">
+          <div class="col-lg-7">
+            <p class="hero-eyebrow"><span class="dot" aria-hidden="true"></span> Mini Project · Frontend Lab</p>
+            <h1>Vishal C Tantri</h1>
+            <p class="hero-role">M.Tech (Integrated) Computer Science &amp; Engineering <span>· VIT Vellore · 2024–2029</span></p>
+            <p class="hero-lead">I build clean, accessible interfaces — and this site is my lab notebook. <strong class="text-white">Frontend Lab</strong> is one deployable campus portal that puts all 36 frontend-design exercises to work, from semantic HTML and nested lists to Bootstrap layouts, HTML5 forms and event-driven JavaScript.</p>
+            <div class="hero-meta">
+              <span class="meta-pill"><i class="bi bi-person-vcard"></i> Reg. No. 24MIC0068</span>
+              <span class="meta-pill"><i class="bi bi-code-slash"></i> HTML · CSS · JS · Bootstrap 5</span>
+              <span class="meta-pill"><i class="bi bi-mortarboard"></i> CSE · VIT Vellore</span>
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-4">
+              <a class="btn btn-brand btn-lg" href="exercises.html">Explore the 36 exercises <i class="bi bi-arrow-right ms-1"></i></a>
+              <a class="btn btn-ghost btn-lg" href="#contact">Contact me</a>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <figure class="portrait-card">
+              <img class="portrait" src="assets/img/profile.jpg" width="400" height="400" alt="Portrait photograph of Vishal C Tantri">
+              <figcaption>
+                <p class="portrait-name mb-0">Vishal C Tantri</p>
+                <p class="portrait-reg">24MIC0068 · Frontend Lab</p>
+                <div class="portrait-links">
+                  <a href="https://github.com/vishaltantri" target="_blank" rel="noopener"><i class="bi bi-github"></i> GitHub</a>
+                  <a href="https://www.linkedin.com/in/vishaltantri/" target="_blank" rel="noopener"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                  <a href="mailto:vishal.ctantri2024@vitstudent.ac.in"><i class="bi bi-envelope"></i> Email</a>
+                </div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="stat-strip">
+          <div><strong>36</strong><span>Lab exercises</span></div>
+          <div><strong>32</strong><span>Linked pages</span></div>
+          <div><strong>6</strong><span>Modules</span></div>
+          <div><strong>0</strong><span>Backend needed</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="row g-4 g-lg-5">
+          <div class="col-lg-7">
+            <p class="eyebrow">About me</p>
+            <h2 class="section-title">Frontend, learned by building.</h2>
+            <p>I am Vishal C Tantri, a third-year M.Tech (Integrated) Computer Science and Engineering student at Vellore Institute of Technology. I enjoy the part of software where structure meets craft: turning a plain requirement into a page that is easy to read, quick to scan and comfortable on any screen size.</p>
+            <p>This mini project collects every exercise from the Frontend Design lab into a single, coherent product. Instead of thirty disconnected files, each technique becomes a real campus feature — the travel club publishes a bucket list, the hospital runs its header and registration desk, the store handles checkout, and the esports club hosts a gaming banner. The shared design system keeps them consistent, while the pages marked <em>as specified</em> deliberately stay in plain HTML or inline CSS to show the underlying skill.</p>
+            <p>Everything is static: no database, no server, no build step. Open <code>index.html</code> or drop the folder on any static host and it runs.</p>
+            <div class="fact-grid">
+              <div class="fact"><span>Programme</span><strong>M.Tech (Integrated) CSE · VIT Vellore</strong></div>
+              <div class="fact"><span>Register number</span><strong>24MIC0068</strong></div>
+              <div class="fact"><span>Mini project</span><strong>Frontend Lab</strong></div>
+              <div class="fact"><span>Academic year</span><strong>2026–27 · Third year</strong></div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="panel panel-pad h-100">
+              <p class="small-caps mb-3">Technical skills</p>
+              <ol class="skill-list">
+                <li>HTML5 semantics, forms and accessibility</li>
+                <li>CSS3 layout — flexbox, grid and responsive design</li>
+                <li>Bootstrap 5 components and utility system</li>
+                <li>JavaScript DOM, events and client-side validation</li>
+                <li>UI design systems, typography and colour</li>
+              </ol>
+              <div class="d-flex flex-wrap gap-2 mt-3">
+                <span class="chip"><i class="bi bi-filetype-html"></i> HTML5</span>
+                <span class="chip"><i class="bi bi-filetype-css"></i> CSS3</span>
+                <span class="chip"><i class="bi bi-filetype-js"></i> JavaScript</span>
+                <span class="chip"><i class="bi bi-bootstrap"></i> Bootstrap 5.3</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modules -->
+    <section class="section-tight" id="modules">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+          <div>
+            <p class="eyebrow mb-2">The portal</p>
+            <h2 class="section-title mb-1">Six modules, one website</h2>
+            <p class="section-lead mb-0">Each module groups the exercises that share a technique, and every demo is reachable from the exercise index.</p>
+          </div>
+          <a class="link-arrow" href="exercises.html">See all exercises <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6 col-xl-4">
+            <a class="module-card" href="exercises.html#module-1">
+              <span class="num">Module 01 · 4 exercises</span>
+              <h3>HTML foundations</h3>
+              <p>Portfolio, nested lists, text formatting and a formatted employee profile.</p>
+              <span class="go">Open module <i class="bi bi-arrow-right"></i></span>
+            </a>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <a class="module-card" href="exercises.html#module-2">
+              <span class="num">Module 02 · 6 exercises</span>
+              <h3>Divs &amp; page layouts</h3>
+              <p>Destination cards, ID cards, department navigation, a table layout and two classic shells.</p>
+              <span class="go">Open module <i class="bi bi-arrow-right"></i></span>
+            </a>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <a class="module-card" href="exercises.html#module-3">
+              <span class="num">Module 03 · 7 exercises</span>
+              <h3>Styled headers &amp; pages</h3>
+              <p>Hospital, search engine and gaming headers; company profile, library grid and site footer.</p>
+              <span class="go">Open module <i class="bi bi-arrow-right"></i></span>
+            </a>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <a class="module-card" href="exercises.html#module-4">
+              <span class="num">Module 04 · 4 exercises</span>
+              <h3>Forms &amp; media</h3>
+              <p>Student login, symposium registration, patient intake and a three-step checkout.</p>
+              <span class="go">Open module <i class="bi bi-arrow-right"></i></span>
+            </a>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <a class="module-card" href="exercises.html#module-5">
+              <span class="num">Module 05 · 4 exercises</span>
+              <h3>JavaScript validation</h3>
+              <p>Regex-backed checks, tabular output and friendly inline error messages.</p>
+              <span class="go">Open module <i class="bi bi-arrow-right"></i></span>
+            </a>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <a class="module-card" href="exercises.html#module-6">
+              <span class="num">Module 06 · 11 exercises</span>
+              <h3>Mouse &amp; keyboard events</h3>
+              <p>Traffic lights, weather panels, a product card, an exam UI, galleries and key handling.</p>
+              <span class="go">Open module <i class="bi bi-arrow-right"></i></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Achievements -->
+    <section class="section-tight">
+      <div class="container">
+        <p class="eyebrow">Academics</p>
+        <h2 class="section-title">Academic achievements</h2>
+        <p class="section-lead">A quick record of the qualifications behind the project.</p>
+        <div class="panel p-0 overflow-hidden">
+          <div class="table-responsive">
+            <table class="table table-achievements align-middle mb-0">
+              <caption class="visually-hidden">Academic achievements of Vishal C Tantri</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Degree / qualification</th>
+                  <th scope="col">Institution</th>
+                  <th scope="col">Year of completion</th>
+                  <th scope="col">Percentage / CGPA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="course">M.Tech (Integrated) — Computer Science &amp; Engineering</td>
+                  <td>Vellore Institute of Technology, Vellore</td>
+                  <td>2029 <span class="text-muted-2">(expected)</span></td>
+                  <td class="score">8.82 CGPA</td>
+                </tr>
+                <tr>
+                  <td class="course">Senior Secondary (PCM + Computer Science)</td>
+                  <td>Senior Secondary School</td>
+                  <td>2024</td>
+                  <td class="score">92%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="row g-4 align-items-stretch">
+          <div class="col-lg-5">
+            <p class="eyebrow">Get in touch</p>
+            <h2 class="section-title">Contact information</h2>
+            <p class="section-lead">Questions about the project, the exercises or a frontend role? The fastest way to reach me is email.</p>
+            <p class="small mb-1"><strong class="text-ink">Vishal C Tantri</strong> · 24MIC0068</p>
+            <p class="small text-muted-2">M.Tech (Integrated) Computer Science &amp; Engineering, VIT Vellore · Third year.</p>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              <a class="btn btn-brand" href="mailto:vishal.ctantri2024@vitstudent.ac.in"><i class="bi bi-envelope me-1"></i> Write an email</a>
+              <a class="btn btn-outline-brand" href="https://github.com/vishaltantri" target="_blank" rel="noopener"><i class="bi bi-github me-1"></i> GitHub</a>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="contact-card">
+              <h3>Direct lines</h3>
+              <p class="mb-3">Available on campus through the semester.</p>
+              <div class="contact-line">
+                <i class="bi bi-envelope-at"></i>
+                <div><a href="mailto:vishal.ctantri2024@vitstudent.ac.in">vishal.ctantri2024@vitstudent.ac.in</a><span>Email · preferred</span></div>
+              </div>
+              <div class="contact-line">
+                <i class="bi bi-telephone"></i>
+                <!-- Replace this placeholder phone number with your own. -->
+                <div><a href="tel:+919876543210">+91 98765 43210</a><span>Phone · 9 am – 6 pm</span></div>
+              </div>
+              <div class="contact-line">
+                <i class="bi bi-geo-alt"></i>
+                <div><span class="text-white-50">Vellore Institute of Technology</span><span>Vellore, Tamil Nadu 632014</span></div>
+              </div>
+              <div class="contact-line">
+                <i class="bi bi-link-45deg"></i>
+                <div>
+                  <a href="https://www.linkedin.com/in/vishaltantri/" target="_blank" rel="noopener">linkedin.com/in/vishaltantri</a>
+                  <span>LinkedIn profile</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <hr class="footer-rule">
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <a class="brand" href="index.html">
+            <span class="brand-mark" aria-hidden="true">VT</span>
+            <span class="brand-text">
+              <span class="brand-name">Frontend Lab</span>
+              <span class="brand-sub">Frontend Design · Mini Project</span>
+            </span>
+          </a>
+          <p>One deployable campus portal that contains all 36 frontend-design exercises — built with HTML, CSS, vanilla JavaScript and Bootstrap.</p>
+          <div class="chip-row">
+            <span class="chip chip-dark">Static site</span>
+            <span class="chip chip-dark">Responsive</span>
+            <span class="chip chip-dark">No backend</span>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <p class="footer-heading">Quick links</p>
+          <ul class="footer-links">
+            <li><a href="index.html#about">About me</a></li>
+            <li><a href="exercises.html">Exercise index</a></li>
+            <li><a href="index.html#modules">Modules</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-4">
+          <p class="footer-heading">Project details</p>
+          <p class="footer-meta mb-0">
+            <strong>Vishal C Tantri</strong><br>
+            Register no. 24MIC0068<br>
+            M.Tech (Integrated) CSE · VIT Vellore<br>
+            Mini Project — Frontend Lab
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068. All rights reserved.</span>
+        <span>Designed &amp; built for the Frontend Lab mini project.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

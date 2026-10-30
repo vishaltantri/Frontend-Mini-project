@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout &amp; Payment · Frontend Lab</title>
+  <meta name="description" content="Exercise 21 — a three-part shopping cart checkout with delivery details, payment options and a live summary.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .stepper { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-bottom: 1.2rem; }
+    .stepper a {
+      display: inline-flex; align-items: center; gap: .5rem; text-decoration: none;
+      background: #fff; border: 1px solid var(--line); border-radius: 999px;
+      padding: .45rem .8rem .45rem .45rem; font-size: .8rem; font-weight: 700; color: var(--body);
+    }
+    .stepper a:hover { border-color: #99f6e4; color: var(--brand-strong); }
+    .stepper .n {
+      width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
+      background: var(--brand-tint); color: var(--brand-strong); font-size: .7rem; font-weight: 800;
+    }
+    .step-panel { padding: clamp(1.2rem, 3vw, 1.8rem); scroll-margin-top: 100px; }
+    .step-head { display: flex; align-items: center; gap: .7rem; margin-bottom: 1.2rem; }
+    .step-head .n {
+      width: 34px; height: 34px; border-radius: 10px; background: var(--ink); color: #5eead4;
+      display: grid; place-items: center; font-size: .82rem; font-weight: 800; flex: 0 0 auto;
+    }
+    .step-head h2 { font-size: 1.1rem; margin: 0; }
+    .step-head p { font-size: .78rem; color: var(--muted); margin: 0; }
+    .pay-option {
+      display: flex; align-items: flex-start; gap: .6rem; border: 1px solid var(--line);
+      border-radius: 10px; padding: .65rem .8rem; cursor: pointer; background: #fff; height: 100%;
+    }
+    .pay-option:has(input:checked) { border-color: var(--brand); background: var(--brand-tint); box-shadow: inset 0 0 0 1px var(--brand); }
+    .pay-option input { margin-top: .25rem; }
+    .pay-option strong { display: block; font-size: .84rem; color: var(--ink); }
+    .pay-option small { color: var(--muted); font-size: .72rem; }
+    .cart-panel { position: sticky; top: 92px; padding: 0; overflow: hidden; }
+    @media (max-width: 991.98px) { .cart-panel { position: static; } }
+    .cart-item { display: flex; gap: .65rem; align-items: center; padding: .7rem 0; border-bottom: 1px dashed var(--line); }
+    .cart-item img { width: 54px; height: 54px; object-fit: cover; border-radius: 9px; border: 1px solid var(--line); }
+    .cart-item .name { font-size: .82rem; font-weight: 650; color: var(--ink); margin: 0; }
+    .cart-item .price { font-size: .75rem; color: var(--muted); margin: 0; }
+    .qty { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; margin-left: auto; }
+    .qty button { width: 26px; height: 28px; border: 0; background: #f8fafc; color: var(--body); font-weight: 700; cursor: pointer; }
+    .qty button:hover { background: var(--brand-tint); color: var(--brand-strong); }
+    .qty input { width: 30px; height: 28px; border: 0; text-align: center; font-size: .78rem; font-weight: 700; color: var(--ink); background: #fff; appearance: textfield; }
+    .qty input::-webkit-outer-spin-button, .qty input::-webkit-inner-spin-button { appearance: none; margin: 0; }
+    .cart-total { display: flex; justify-content: space-between; font-size: .84rem; color: var(--muted); }
+    .cart-total.grand { font-size: 1.06rem; font-weight: 800; color: var(--ink); padding-top: .6rem; margin-top: .5rem; border-top: 1px solid var(--line); }
+    .secure-note { font-size: .72rem; color: var(--muted); }
+    .card-fields { background: #f8fafc; border: 1px solid var(--line); border-radius: 12px; padding: 1rem; margin-top: .9rem; }
+    .card-fields[hidden] { display: none; }
+    .field-error { display: none; color: var(--danger); font-size: .78rem; font-weight: 600; margin-top: .3rem; }
+    .field-error.show { display: block; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 04 · Forms &amp; media</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercise <span class="num">21</span></span>
+          <span class="chip chip-brand">Checkout</span>
+          <span class="chip">Cart + payment</span>
+        </div>
+        <h1 class="page-title">Checkout &amp; payment</h1>
+        <p class="page-lead">The store checkout, split into three linked parts: delivery details, payment method and a live cart summary that totals the order as quantities change.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <nav class="stepper" aria-label="Checkout steps">
+          <a href="#details"><span class="n">1</span> Delivery details</a>
+          <a href="#payment"><span class="n">2</span> Payment</a>
+          <a href="#summary"><span class="n">3</span> Cart summary</a>
+        </nav>
+
+        <div class="alert alert-success d-none" id="orderSuccess" role="status"></div>
+
+        <form id="checkoutForm" class="row g-4" action="#">
+          <div class="col-lg-7">
+            <!-- PART A -->
+            <section class="panel step-panel mb-3" id="details">
+              <div class="step-head">
+                <span class="n">A</span>
+                <div><h2>Customer &amp; delivery details</h2><p>Where should the order go?</p></div>
+              </div>
+              <div class="form-grid">
+                <div>
+                  <label class="form-label" for="coName">Customer name <span class="req">*</span></label>
+                  <input class="form-control" id="coName" name="name" type="text" placeholder="Full name" minlength="3" required>
+                </div>
+                <div>
+                  <label class="form-label" for="coEmail">Email address <span class="req">*</span></label>
+                  <input class="form-control" id="coEmail" name="email" type="email" placeholder="name@example.com" required>
+                </div>
+                <div>
+                  <label class="form-label" for="coMobile">Mobile number <span class="req">*</span></label>
+                  <input class="form-control" id="coMobile" name="mobile" type="tel" placeholder="9876543210" pattern="[6-9][0-9]{9}" maxlength="10" required>
+                </div>
+                <div>
+                  <label class="form-label" for="coCity">City <span class="req">*</span></label>
+                  <input class="form-control" id="coCity" name="city" type="text" placeholder="Vellore" required>
+                </div>
+                <div class="span-2">
+                  <label class="form-label" for="coAddress">Delivery address <span class="req">*</span></label>
+                  <textarea class="form-control" id="coAddress" name="address" rows="2" placeholder="Building, street, area" required></textarea>
+                </div>
+                <div>
+                  <label class="form-label" for="coState">State <span class="req">*</span></label>
+                  <select class="form-select" id="coState" name="state" required>
+                    <option value="">Choose a state</option>
+                    <option>Tamil Nadu</option>
+                    <option>Karnataka</option>
+                    <option>Kerala</option>
+                    <option>Andhra Pradesh</option>
+                    <option>Telangana</option>
+                    <option>Maharashtra</option>
+                    <option>Delhi</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label" for="coPin">PIN code <span class="req">*</span></label>
+                  <input class="form-control" id="coPin" name="pin" type="number" min="100000" max="999999" placeholder="632014" required>
+                </div>
+                <div class="span-2">
+                  <label class="form-label" for="coDate">Delivery date <span class="req">*</span></label>
+                  <input class="form-control" id="coDate" name="deliveryDate" type="date" min="2026-11-01" required>
+                  <p class="form-text">Standard delivery takes 2–4 working days on campus.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- PART B -->
+            <section class="panel step-panel" id="payment">
+              <div class="step-head">
+                <span class="n">B</span>
+                <div><h2>Payment details</h2><p>Choose how you want to pay.</p></div>
+              </div>
+
+              <fieldset class="mb-3">
+                <legend class="form-label">Payment method <span class="req">*</span></legend>
+                <div class="row g-2">
+                  <div class="col-sm-6 col-xl-4">
+                    <label class="pay-option"><input type="radio" name="method" value="Credit Card" checked><span><strong>Credit Card</strong><small>Visa, Mastercard, RuPay</small></span></label>
+                  </div>
+                  <div class="col-sm-6 col-xl-4">
+                    <label class="pay-option"><input type="radio" name="method" value="Debit Card"><span><strong>Debit Card</strong><small>All major banks</small></span></label>
+                  </div>
+                  <div class="col-sm-6 col-xl-4">
+                    <label class="pay-option"><input type="radio" name="method" value="UPI"><span><strong>UPI</strong><small>GPay, PhonePe, Paytm</small></span></label>
+                  </div>
+                  <div class="col-sm-6 col-xl-4">
+                    <label class="pay-option"><input type="radio" name="method" value="Net Banking"><span><strong>Net Banking</strong><small>Pay directly from your bank</small></span></label>
+                  </div>
+                  <div class="col-sm-6 col-xl-4">
+                    <label class="pay-option"><input type="radio" name="method" value="Cash on Delivery"><span><strong>Cash on Delivery</strong><small>Pay when it arrives</small></span></label>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div class="card-fields" id="cardFields">
+                <div class="form-grid">
+                  <div class="span-2">
+                    <label class="form-label" for="coCardName">Card holder name <span class="req">*</span></label>
+                    <input class="form-control" id="coCardName" name="cardName" type="text" placeholder="Name as printed on the card" required>
+                  </div>
+                  <div class="span-2">
+                    <label class="form-label" for="coCardNumber">Card number <span class="req">*</span></label>
+                    <input class="form-control" id="coCardNumber" name="cardNumber" type="password" inputmode="numeric" placeholder="1234567890123456" pattern="[0-9]{16}" maxlength="16" required>
+                  </div>
+                  <div>
+                    <label class="form-label" for="coExpiry">Expiry date <span class="req">*</span></label>
+                    <input class="form-control" id="coExpiry" name="expiry" type="month" min="2026-11" required>
+                  </div>
+                  <div>
+                    <label class="form-label" for="coCvv">CVV <span class="req">*</span></label>
+                    <input class="form-control" id="coCvv" name="cvv" type="password" inputmode="numeric" placeholder="123" pattern="[0-9]{3,4}" minlength="3" maxlength="4" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-fields" id="upiFields" hidden>
+                <label class="form-label" for="coUpi">UPI ID <span class="req">*</span></label>
+                <input class="form-control" id="coUpi" name="upiId" type="text" placeholder="yourname@bank" pattern="[A-Za-z0-9._\-]{2,}@[A-Za-z]{3,}" disabled>
+                <p class="form-text mb-0">Example: vishal@okhdfcbank</p>
+              </div>
+
+              <div class="card-fields" id="netbankingFields" hidden>
+                <label class="form-label" for="coBank">Select your bank <span class="req">*</span></label>
+                <select class="form-select" id="coBank" name="bank" disabled>
+                  <option value="">Choose a bank</option>
+                  <option>State Bank of India</option>
+                  <option>HDFC Bank</option>
+                  <option>ICICI Bank</option>
+                  <option>Axis Bank</option>
+                  <option>Kotak Mahindra Bank</option>
+                </select>
+              </div>
+
+              <div class="note-strip mt-3" id="codNote" hidden>
+                <i class="bi bi-cash-coin"></i>
+                <div>Cash on Delivery: please keep the exact amount ready. Campus delivery accepts UPI at the door as well.</div>
+              </div>
+
+              <div class="form-check mt-3">
+                <input class="form-check-input" id="coTerms" name="terms" type="checkbox" required>
+                <label class="form-check-label" for="coTerms">I accept the terms and conditions, including the return policy. <span class="req">*</span></label>
+              </div>
+              <p class="secure-note mt-2 mb-0"><i class="bi bi-shield-lock me-1"></i> Demo checkout — no payment is processed and no card data is stored.</p>
+            </section>
+          </div>
+
+          <!-- PART C -->
+          <div class="col-lg-5">
+            <section class="panel cart-panel" id="summary">
+              <div class="panel-head">
+                <h2><i class="bi bi-bag me-1" style="color:var(--brand);"></i> Cart summary</h2>
+                <span class="chip" id="cartCountChip">3 items</span>
+              </div>
+              <div class="p-3">
+                <div class="cart-item" data-price="4999">
+                  <img src="assets/img/product-headphones.jpg" alt="Wireless headphones">
+                  <div>
+                    <p class="name mb-0">Noise-cancelling headphones</p>
+                    <p class="price mb-0">&#8377;4,999 each</p>
+                  </div>
+                  <div class="qty">
+                    <button type="button" class="qty-btn" data-delta="-1" aria-label="Decrease headphones quantity">&minus;</button>
+                    <input type="number" class="qty-input" value="1" min="1" max="9" aria-label="Headphones quantity">
+                    <button type="button" class="qty-btn" data-delta="1" aria-label="Increase headphones quantity">+</button>
+                  </div>
+                </div>
+
+                <div class="cart-item" data-price="8499">
+                  <img src="assets/img/product-watch.jpg" alt="Smart watch">
+                  <div>
+                    <p class="name mb-0">Smart watch with fitness tracking</p>
+                    <p class="price mb-0">&#8377;8,499 each</p>
+                  </div>
+                  <div class="qty">
+                    <button type="button" class="qty-btn" data-delta="-1" aria-label="Decrease watch quantity">&minus;</button>
+                    <input type="number" class="qty-input" value="1" min="1" max="9" aria-label="Watch quantity">
+                    <button type="button" class="qty-btn" data-delta="1" aria-label="Increase watch quantity">+</button>
+                  </div>
+                </div>
+
+                <div class="cart-item" data-price="3299">
+                  <img src="assets/img/product-shoes.jpg" alt="Running shoes">
+                  <div>
+                    <p class="name mb-0">Running shoes</p>
+                    <p class="price mb-0">&#8377;3,299 each</p>
+                  </div>
+                  <div class="qty">
+                    <button type="button" class="qty-btn" data-delta="-1" aria-label="Decrease shoes quantity">&minus;</button>
+                    <input type="number" class="qty-input" value="1" min="1" max="9" aria-label="Shoes quantity">
+                    <button type="button" class="qty-btn" data-delta="1" aria-label="Increase shoes quantity">+</button>
+                  </div>
+                </div>
+
+                <div class="cart-total mt-3"><span>Subtotal</span><span id="cartSubtotal">&#8377;16,797</span></div>
+                <div class="cart-total mt-1"><span>Delivery</span><span>Free</span></div>
+                <div class="cart-total grand"><span>Total amount</span><span id="cartTotal">&#8377;16,797</span></div>
+
+                <div class="d-grid gap-2 mt-3">
+                  <button class="btn btn-brand" type="submit"><i class="bi bi-lock me-1"></i> Place order</button>
+                  <button class="btn btn-outline-brand" type="button" id="cancelOrder">Cancel</button>
+                </div>
+                <p class="secure-note mt-2 mb-0">Prices include GST. Orders above &#8377;999 ship free.</p>
+              </div>
+            </section>
+          </div>
+        </form>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>Part A: name, email, mobile, address, city, state, PIN, delivery date</li>
+            <li>Part B: five payment methods, card fields, UPI, net banking</li>
+            <li>Expiry month, CVV and terms checkbox</li>
+            <li>Part C: product, quantity, price and total amount</li>
+            <li>Live cart totals and quantity controls</li>
+            <li>Place Order and Cancel actions</li>
+            <li>Linked steps #details, #payment and #summary</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="patient-registration.html"><i class="bi bi-arrow-left"></i> 20 · Patient registration</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="employee-registration.html">22 · Employee registration <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/checkout.js"></script>
+</body>
+</html>

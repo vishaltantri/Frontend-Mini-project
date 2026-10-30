@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library Management System · Frontend Lab</title>
+  <meta name="description" content="Exercise 16 — a 2 × 2 library dashboard with four coloured blocks, built from divs and inline CSS.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+</head>
+<body style="margin:0;background:#eef3f8;font-family:'Segoe UI',Arial,sans-serif;color:#334155;line-height:1.6;">
+
+  <!-- Exercise 16 · divs + inline CSS -->
+  <div style="background:#e3ecf4;border-bottom:1px solid #d5e2ec;padding:9px 20px;font-size:12px;">
+    <div style="max-width:960px;margin:0 auto;display:flex;justify-content:space-between;gap:12px;">
+      <a href="exercises.html" style="color:#0f766e;text-decoration:none;font-weight:700;">&larr; Back to Frontend Lab exercises</a>
+      <span style="color:#64748b;">Exercise 16 &middot; inline CSS grid</span>
+    </div>
+  </div>
+
+  <div style="max-width:960px;margin:0 auto;padding:34px 20px 48px;">
+    <h1 style="margin:0 0 6px;text-align:center;font-size:30px;line-height:1.2;color:#0b1220;letter-spacing:-.5px;">Library Management System</h1>
+    <p style="margin:0 0 28px;text-align:center;font-size:14px;color:#64748b;">Central Library &middot; VIT Vellore &middot; four services, one dashboard</p>
+
+    <div style="display:flex;flex-wrap:wrap;gap:18px;">
+
+      <!-- Books -->
+      <div style="flex:1 1 45%;min-width:270px;background:#0f766e;border-radius:18px;overflow:hidden;box-shadow:0 16px 34px rgba(15,118,110,.22);">
+        <img src="assets/img/library-books.jpg" alt="Shelves of books in the central library" width="900" height="600" style="width:100%;height:190px;object-fit:cover;display:block;opacity:.92;">
+        <div style="padding:18px 22px 22px;color:#ecfdf5;">
+          <div style="font-size:10px;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:#99f6e4;">Catalogue</div>
+          <div style="font-size:22px;font-weight:800;color:#ffffff;margin:2px 0 4px;">Books</div>
+          <p style="margin:0;font-size:13px;color:#ccfbf1;">1,84,200 titles across science, engineering, management and the humanities. New arrivals are catalogued every Monday.</p>
+        </div>
+      </div>
+
+      <!-- Members -->
+      <div style="flex:1 1 45%;min-width:270px;background:#6d28d9;border-radius:18px;overflow:hidden;box-shadow:0 16px 34px rgba(109,40,217,.22);">
+        <img src="assets/img/library-members.jpg" alt="Students studying together in a library" width="900" height="600" style="width:100%;height:190px;object-fit:cover;display:block;opacity:.92;">
+        <div style="padding:18px 22px 22px;color:#f5f3ff;">
+          <div style="font-size:10px;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:#ddd6fe;">Access</div>
+          <div style="font-size:22px;font-weight:800;color:#ffffff;margin:2px 0 4px;">Members</div>
+          <p style="margin:0;font-size:13px;color:#ede9fe;">12,480 active members, including students, faculty and research scholars. Membership renews each semester.</p>
+        </div>
+      </div>
+
+      <!-- Issue Books -->
+      <div style="flex:1 1 45%;min-width:270px;background:#b45309;border-radius:18px;overflow:hidden;box-shadow:0 16px 34px rgba(180,83,9,.22);">
+        <img src="assets/img/library-issue.jpg" alt="A stack of borrowed books" width="900" height="600" style="width:100%;height:190px;object-fit:cover;display:block;opacity:.92;">
+        <div style="padding:18px 22px 22px;color:#fffbeb;">
+          <div style="font-size:10px;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:#fde68a;">Circulation</div>
+          <div style="font-size:22px;font-weight:800;color:#ffffff;margin:2px 0 4px;">Issue Books</div>
+          <p style="margin:0;font-size:13px;color:#fef3c7;">Self-service kiosks and a two-week loan period. Renew twice online, or reserve a title that is already out.</p>
+        </div>
+      </div>
+
+      <!-- Digital Library -->
+      <div style="flex:1 1 45%;min-width:270px;background:#1d4ed8;border-radius:18px;overflow:hidden;box-shadow:0 16px 34px rgba(29,78,216,.22);">
+        <img src="assets/img/library-digital.jpg" alt="A student using a laptop" width="900" height="600" style="width:100%;height:190px;object-fit:cover;display:block;opacity:.92;">
+        <div style="padding:18px 22px 22px;color:#eff6ff;">
+          <div style="font-size:10px;letter-spacing:1.6px;text-transform:uppercase;font-weight:800;color:#bfdbfe;">Online</div>
+          <div style="font-size:22px;font-weight:800;color:#ffffff;margin:2px 0 4px;">Digital Library</div>
+          <p style="margin:0;font-size:13px;color:#dbeafe;">Journals, e-books and past question papers, available on campus and through remote access with your student login.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <p style="margin:26px 0 0;text-align:center;font-size:12px;color:#64748b;">
+      &copy; 2026 Central Library (demo) &middot; Built by <strong>Vishal C Tantri (24MIC0068)</strong> &middot;
+      <a href="exercises.html" style="color:#0f766e;">Exercise index</a>
+    </p>
+  </div>
+</body>
+</html>

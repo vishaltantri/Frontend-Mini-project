@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Search Engine · Frontend Lab</title>
+  <meta name="description" content="Exercise 13 — a responsive search header with category and price filters, rounded controls and a hover state.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <style>
+    :root { --ss-ink:#0b1220; --ss-line:#dfe8f0; --ss-muted:#64748b; --ss-teal:#0f766e; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: #f4f8fb; color: #334155;
+      font-family: "Segoe UI", system-ui, Arial, sans-serif; line-height: 1.6;
+    }
+    a { color: var(--ss-teal); }
+    .ss-backbar { background: #e8f0f6; border-bottom: 1px solid #d5e2ec; font-size: 12px; padding: 8px 20px; }
+    .ss-backbar div { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 1rem; }
+    .ss-backbar a { color: var(--ss-teal); font-weight: 700; text-decoration: none; }
+    .ss-backbar span { color: var(--ss-muted); }
+
+    /* Header */
+    .ss-header { background: linear-gradient(115deg, #0b1220 0%, #103a3a 62%, #0f766e 100%); color: #e2e8f0; }
+    .ss-inner {
+      max-width: 1180px; margin: 0 auto; padding: 20px;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 16px 26px;
+    }
+    .ss-brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-size: 20px; font-weight: 800; letter-spacing: -.3px; white-space: nowrap; }
+    .ss-brand .glyph {
+      width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center;
+      background: #14b8a6; color: #042f2e; font-size: 20px; font-weight: 900;
+    }
+    .ss-form { flex: 1 1 620px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .ss-form input[type="search"] {
+      flex: 1 1 240px; min-width: 190px; background: #fff; border: 0; border-radius: 999px;
+      padding: 12px 18px; font-size: 13.5px; color: var(--ss-ink); outline: none;
+      box-shadow: 0 6px 18px rgba(2, 20, 20, .18);
+    }
+    .ss-form input[type="search"]::placeholder { color: #94a3b8; }
+    .ss-form select {
+      background: #fff; border: 0; border-radius: 999px; padding: 12px 34px 12px 16px;
+      font-size: 13px; color: #334155; cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2364748b'%3e%3cpath d='M4.5 6l3.5 4 3.5-4z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat; background-position: right 12px center; background-size: 16px;
+    }
+    .ss-form button {
+      background: #f59e0b; color: #3b2503; border: 0; border-radius: 999px;
+      padding: 12px 26px; font-size: 13.5px; font-weight: 800; cursor: pointer;
+      transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
+      box-shadow: 0 8px 20px rgba(245, 158, 11, .2);
+    }
+    .ss-form button:hover { background: #fbbf24; transform: translateY(-1px); box-shadow: 0 12px 24px rgba(245, 158, 11, .3); }
+    .ss-form button:active { transform: translateY(0); }
+    .ss-form input:focus, .ss-form select:focus, .ss-form button:focus-visible { outline: 3px solid rgba(94, 234, 212, .55); outline-offset: 2px; }
+
+    .ss-main { max-width: 1180px; margin: 0 auto; padding: 30px 20px 46px; }
+    .ss-eyebrow { font-size: 11px; letter-spacing: 1.4px; font-weight: 800; color: #0f766e; margin: 0 0 8px; }
+    .ss-main h1 { margin: 0 0 10px; font-size: clamp(26px, 4vw, 36px); line-height: 1.15; color: #0b1220; letter-spacing: -.6px; }
+    .ss-lead { margin: 0 0 22px; max-width: 68ch; color: #475569; font-size: 15px; }
+    .ss-summary {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+      background: #fff; border: 1px solid var(--ss-line); border-radius: 12px; padding: 12px 16px;
+      font-size: 13px; margin-bottom: 18px;
+    }
+    .ss-summary strong { color: #0b1220; }
+    .ss-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ss-chips span { background: #f1f5f9; border: 1px solid #e2e8f0; color: #475569; border-radius: 999px; padding: 4px 10px; font-size: 11px; font-weight: 700; }
+
+    .ss-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 14px; }
+    .result-card {
+      background: #fff; border: 1px solid var(--ss-line); border-radius: 14px; overflow: hidden;
+      display: flex; flex-direction: column; transition: box-shadow .18s ease, transform .18s ease;
+    }
+    .result-card:hover { box-shadow: 0 18px 35px -28px rgba(15, 23, 42, .35); transform: translateY(-2px); }
+    .result-card img { width: 100%; height: 160px; object-fit: cover; display: block; background: #e2e8f0; }
+    .result-card .body { padding: 13px 15px 15px; display: flex; flex-direction: column; flex: 1; }
+    .result-card .cat { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #0f766e; font-weight: 800; }
+    .result-card h3 { font-size: 14px; margin: 4px 0 6px; color: #0b1220; line-height: 1.35; }
+    .result-card .price { margin-top: auto; font-weight: 800; color: #0b1220; font-size: 15px; }
+    .result-card .meta { font-size: 11.5px; color: var(--ss-muted); }
+    .ss-empty { display: none; background: #fff; border: 1px dashed #b6dfd8; border-radius: 14px; padding: 26px; text-align: center; color: #475569; }
+    .ss-empty.show { display: block; }
+    .ss-footer { background: #0b1220; color: #94a3b8; font-size: 12px; padding: 18px 20px; }
+    .ss-footer div { max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; }
+    .ss-footer a { color: #5eead4; text-decoration: none; }
+
+    @media (max-width: 767.98px) {
+      .ss-form { flex: 1 1 100%; }
+      .ss-form input[type="search"] { flex: 1 1 100%; }
+      .ss-form select { flex: 1 1 44%; }
+      .ss-form button { flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Exercise 13 · search header with CSS -->
+  <div class="ss-backbar">
+    <div>
+      <a href="exercises.html">&larr; Back to Frontend Lab exercises</a>
+      <span>Exercise 13 &middot; Smart Search header</span>
+    </div>
+  </div>
+
+  <header class="ss-header">
+    <div class="ss-inner">
+      <a class="ss-brand" href="#results"><span class="glyph" aria-hidden="true">&#8981;</span> Smart Search Engine</a>
+      <form class="ss-form" id="ssForm" action="#results" role="search">
+        <label class="visually-hidden" for="ssQuery" style="position:absolute;left:-9999px;">Search products, services or articles</label>
+        <input id="ssQuery" type="search" name="q" placeholder="Search products, services, or articles..." autocomplete="off">
+        <label for="ssCategory" style="position:absolute;left:-9999px;">Category</label>
+        <select id="ssCategory" name="category">
+          <option value="all">All Categories</option>
+          <option value="electronics">Electronics</option>
+          <option value="books">Books</option>
+          <option value="clothing">Clothing</option>
+          <option value="groceries">Groceries</option>
+        </select>
+        <label for="ssPrice" style="position:absolute;left:-9999px;">Price range</label>
+        <select id="ssPrice" name="price">
+          <option value="all">Any Price</option>
+          <option value="under500">Under &#8377;500</option>
+          <option value="500-2000">&#8377;500 &ndash; &#8377;2,000</option>
+          <option value="above2000">Above &#8377;2,000</option>
+        </select>
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="ss-main" id="results">
+    <p class="ss-eyebrow">CAMPUS STORE &middot; 4,200 LISTINGS</p>
+    <h1>Everything on campus, one search away.</h1>
+    <p class="ss-lead">This header puts a full-text field, a category filter and a price range into a single horizontal row. The sample catalogue below responds to the form, so the search is more than a decoration.</p>
+
+    <div class="ss-summary">
+      <span><strong id="ssCount">7</strong> results for <strong id="ssTerm">everything</strong></span>
+      <div class="ss-chips">
+        <span>Electronics</span><span>Books</span><span>Clothing</span><span>Groceries</span>
+      </div>
+    </div>
+
+    <div class="ss-grid" id="ssGrid">
+      <article class="result-card" data-category="electronics" data-price="4999" data-title="Noise-cancelling headphones">
+        <img src="assets/img/product-headphones.jpg" alt="Black over-ear headphones on a yellow background" loading="lazy">
+        <div class="body">
+          <span class="cat">Electronics</span>
+          <h3>Noise-cancelling headphones</h3>
+          <p class="meta mb-2">Over-ear &middot; 30-hour battery</p>
+          <p class="price mb-0">&#8377;4,999</p>
+        </div>
+      </article>
+
+      <article class="result-card" data-category="electronics" data-price="8499" data-title="Smart watch with fitness tracking">
+        <img src="assets/img/product-watch.jpg" alt="Two smart watches on a white surface" loading="lazy">
+        <div class="body">
+          <span class="cat">Electronics</span>
+          <h3>Smart watch with fitness tracking</h3>
+          <p class="meta mb-2">AMOLED &middot; 7-day battery</p>
+          <p class="price mb-0">&#8377;8,499</p>
+        </div>
+      </article>
+
+      <article class="result-card" data-category="clothing" data-price="3299" data-title="Running shoes">
+        <img src="assets/img/product-shoes.jpg" alt="Red running shoe on a red background" loading="lazy">
+        <div class="body">
+          <span class="cat">Clothing</span>
+          <h3>Running shoes</h3>
+          <p class="meta mb-2">Road trainers &middot; sizes 6–11</p>
+          <p class="price mb-0">&#8377;3,299</p>
+        </div>
+      </article>
+
+      <article class="result-card" data-category="books" data-price="1299" data-title="Design Systems handbook">
+        <img src="assets/img/library-issue.jpg" alt="Stack of design and business books" loading="lazy">
+        <div class="body">
+          <span class="cat">Books</span>
+          <h3>Design Systems handbook</h3>
+          <p class="meta mb-2">Paperback &middot; 312 pages</p>
+          <p class="price mb-0">&#8377;1,299</p>
+        </div>
+      </article>
+
+      <article class="result-card" data-category="books" data-price="649" data-title="Data Structures in C">
+        <img src="assets/img/library-books.jpg" alt="Bookshelves filled with books" loading="lazy">
+        <div class="body">
+          <span class="cat">Books</span>
+          <h3>Data Structures in C</h3>
+          <p class="meta mb-2">Second edition &middot; lab companion</p>
+          <p class="price mb-0">&#8377;649</p>
+        </div>
+      </article>
+
+      <article class="result-card" data-category="books" data-price="499" data-title="Exam study kit">
+        <img src="assets/img/study.jpg" alt="Desk with notes, a pen and coffee" loading="lazy">
+        <div class="body">
+          <span class="cat">Books</span>
+          <h3>Exam study kit</h3>
+          <p class="meta mb-2">Notes, sticky tabs and a pen</p>
+          <p class="price mb-0">&#8377;499</p>
+        </div>
+      </article>
+
+      <article class="result-card" data-category="groceries" data-price="599" data-title="Weekly fruit box">
+        <img src="assets/img/groceries.jpg" alt="Fresh produce on grocery shelves" loading="lazy">
+        <div class="body">
+          <span class="cat">Groceries</span>
+          <h3>Weekly fruit box</h3>
+          <p class="meta mb-2">Seasonal &middot; delivered on Sunday</p>
+          <p class="price mb-0">&#8377;599</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="ss-empty" id="ssEmpty">
+      <strong style="display:block;color:#0b1220;margin-bottom:4px;">No matches yet</strong>
+      Try a different keyword, category or price range.
+    </div>
+
+    <p style="margin:26px 0 0;font-size:12px;color:#64748b;">Header and catalogue built by <strong>Vishal C Tantri (24MIC0068)</strong> for the Frontend Design lab.</p>
+  </main>
+
+  <footer class="ss-footer">
+    <div>
+      <span>&copy; 2026 Smart Search Engine demo &middot; Frontend Lab</span>
+      <span><a href="exercises.html">Exercise index</a> &nbsp;&middot;&nbsp; <a href="index.html">Portfolio</a></span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+      var form = document.getElementById("ssForm");
+      var query = document.getElementById("ssQuery");
+      var category = document.getElementById("ssCategory");
+      var price = document.getElementById("ssPrice");
+      var cards = Array.prototype.slice.call(document.querySelectorAll(".result-card"));
+      var count = document.getElementById("ssCount");
+      var term = document.getElementById("ssTerm");
+      var empty = document.getElementById("ssEmpty");
+
+      function matchesPrice(value, range) {
+        if (range === "under500") return value < 500;
+        if (range === "500-2000") return value >= 500 && value <= 2000;
+        if (range === "above2000") return value > 2000;
+        return true;
+      }
+
+      function apply() {
+        var q = query.value.trim().toLowerCase();
+        var shown = 0;
+        cards.forEach(function (card) {
+          var textOk = !q || card.dataset.title.toLowerCase().indexOf(q) !== -1;
+          var catOk = category.value === "all" || card.dataset.category === category.value;
+          var priceOk = matchesPrice(Number(card.dataset.price), price.value);
+          var visible = textOk && catOk && priceOk;
+          card.style.display = visible ? "" : "none";
+          if (visible) shown += 1;
+        });
+        count.textContent = shown;
+        term.textContent = q ? "\u201C" + query.value.trim() + "\u201D" : "everything";
+        empty.classList.toggle("show", shown === 0);
+      }
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        apply();
+        document.getElementById("results").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      [query, category, price].forEach(function (el) {
+        el.addEventListener("input", apply);
+        el.addEventListener("change", apply);
+      });
+    })();
+  </script>
+</body>
+</html>

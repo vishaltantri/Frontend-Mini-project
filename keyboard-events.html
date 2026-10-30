@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Keyboard Events · Frontend Lab</title>
+  <meta name="description" content="Exercises 31–36 — student search, ATM PIN, product search, an exam interface and two keyboard-driven galleries.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .key-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 1.2rem; }
+    .key-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.3rem; scroll-margin-top: 96px; box-shadow: var(--shadow-sm); }
+    .key-head { display: flex; align-items: flex-start; gap: .7rem; margin-bottom: .9rem; }
+    .key-num {
+      width: 30px; height: 30px; border-radius: 9px; background: var(--violet-soft); border: 1px solid #ddd6fe;
+      color: #5b21b6; display: grid; place-items: center; font-size: .7rem; font-weight: 800; flex: 0 0 auto;
+    }
+    .key-head h2 { font-size: 1rem; margin: 0 0 .1rem; }
+    .key-head p { font-size: .78rem; color: var(--muted); margin: 0; }
+    .key-note { font-size: .78rem; color: var(--muted); margin: .6rem 0 0; }
+    .key-msg { min-height: 26px; font-size: .85rem; font-weight: 700; color: var(--brand-strong); margin: .7rem 0 0; }
+    .key-msg.is-error { color: var(--danger); }
+
+    .search-input { transition: background .2s ease, border-color .2s ease; }
+    .search-input.is-typing { background: #f0fdfa; border-color: var(--brand); }
+    .typed-line { font-size: .83rem; color: var(--muted); margin: .55rem 0 0; }
+    .typed-line strong { color: var(--ink); }
+
+    .atm-input { letter-spacing: .6em; font-size: 1.2rem; font-weight: 700; text-align: center; max-width: 230px; }
+    .atm-shell { background: #0b1220; border-radius: 14px; padding: 1.2rem; text-align: center; }
+    .atm-shell .form-label { color: #cbd5e1; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; }
+    .atm-shell .form-control { background: #111c2e; border-color: #334155; color: #fff; }
+    .atm-shell .form-control:focus { border-color: #2dd4bf; box-shadow: 0 0 0 3px rgba(45, 212, 191, .2); }
+    .atm-status { color: #94a3b8; font-size: .82rem; min-height: 24px; margin: .7rem 0 0; font-weight: 600; }
+    .atm-status.ok { color: #5eead4; }
+    .atm-status.warn { color: #fbbf24; }
+
+    .exam-card { scroll-margin-top: 96px; }
+    .exam-card:focus-visible { outline: 3px solid rgba(124, 58, 237, .45); outline-offset: 3px; }
+    .exam-question { font-weight: 700; color: var(--ink); font-size: .94rem; margin-bottom: .8rem; }
+    .exam-options { display: grid; gap: .45rem; }
+    .exam-option {
+      text-align: left; border: 1px solid var(--line); background: #f8fafc; border-radius: 9px;
+      padding: .6rem .8rem; font-size: .86rem; color: var(--body); cursor: pointer; transition: all .15s ease;
+    }
+    .exam-option:hover { border-color: #c4b5fd; background: #faf8ff; }
+    .exam-option.is-selected { border-color: var(--violet); background: var(--violet-soft); color: #4c1d95; font-weight: 700; box-shadow: inset 0 0 0 1px var(--violet); }
+    .exam-submit { transition: background .15s ease, transform .15s ease, box-shadow .15s ease; }
+    .exam-submit.is-hover { background: var(--brand-strong); transform: translateY(-1px); box-shadow: 0 10px 20px -14px rgba(13,148,136,.9); }
+
+    .gallery-frame { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: #0b1220; }
+    .gallery-frame img { width: 100%; height: 230px; object-fit: cover; display: block; transition: opacity .2s ease; }
+    .gallery-frame .counter { position: absolute; top: 10px; right: 10px; background: rgba(11,18,32,.8); color: #e2e8f0; font-size: .7rem; font-weight: 700; padding: 3px 8px; border-radius: 999px; }
+    .gallery-caption { font-size: .8rem; color: var(--muted); margin: .55rem 0 0; }
+    .gallery-status { min-height: 24px; font-size: .84rem; font-weight: 700; color: var(--brand-strong); margin: .35rem 0 0; }
+    .gallery-nav { display: flex; gap: .4rem; margin-top: .7rem; flex-wrap: wrap; }
+    .gallery-nav button { border: 1px solid var(--line); background: #fff; border-radius: 8px; font-size: .78rem; font-weight: 700; padding: .4rem .7rem; color: var(--body); cursor: pointer; }
+    .gallery-nav button:hover { border-color: #99f6e4; color: var(--brand-strong); background: var(--brand-tint); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg" aria-label="Primary navigation">
+      <div class="container">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">VT</span>
+          <span class="brand-text">
+            <span class="brand-name">Frontend Lab</span>
+            <span class="brand-sub">Frontend Design · Mini Project</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#siteNav" aria-controls="siteNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="siteNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center site-nav gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Exercises</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><h6 class="dropdown-header">Browse by module</h6></li>
+                <li><a class="dropdown-item" href="exercises.html#module-1">01 · HTML foundations</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-2">02 · Divs &amp; layouts</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-3">03 · Styled pages</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-4">04 · Forms &amp; media</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-5">05 · JS validation</a></li>
+                <li><a class="dropdown-item" href="exercises.html#module-6">06 · Mouse &amp; keyboard</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="exercises.html">All 36 exercises</a></li>
+              </ul>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-nav" href="exercises.html">Browse lab</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Home</a><span class="sep">/</span><a href="exercises.html">Exercises</a><span class="sep">/</span><span class="current">Module 06 · Mouse &amp; keyboard</span>
+        </nav>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <span class="ex-badge">Exercises <span class="num">31–36</span></span>
+          <span class="chip chip-brand">Keyboard events</span>
+          <span class="chip">Enter · Esc · arrows</span>
+        </div>
+        <h1 class="page-title">Keyboard events</h1>
+        <p class="page-lead">Six interactions that listen for keys: a student search box, an ATM PIN pad, a live product search, an exam interface and two galleries controlled from the keyboard.</p>
+      </div>
+    </section>
+
+    <section class="section-tight">
+      <div class="container">
+        <div class="key-grid">
+
+          <!-- 31 -->
+          <article class="key-card" id="student-search">
+            <div class="key-head">
+              <span class="key-num">31</span>
+              <div><h2>Student search</h2><p>Shows the key · Enter searches · Esc clears</p></div>
+            </div>
+            <label class="form-label" for="studentSearch">Search students</label>
+            <input class="form-control search-input" id="studentSearch" type="search" placeholder="Type a name or register number" autocomplete="off">
+            <p class="typed-line mb-0">Key pressed: <span class="kbd" id="keyPressed">—</span></p>
+            <p class="key-msg" id="studentSearchMsg" aria-live="polite"></p>
+            <p class="key-note">Press <span class="kbd">Enter</span> to search, <span class="kbd">Esc</span> to clear.</p>
+          </article>
+
+          <!-- 32 -->
+          <article class="key-card" id="atm">
+            <div class="key-head">
+              <span class="key-num">32</span>
+              <div><h2>ATM PIN entry</h2><p>Numbers only · Enter submits</p></div>
+            </div>
+            <div class="atm-shell">
+              <label class="form-label" for="atmPin">Enter your 4-digit PIN</label>
+              <input class="form-control atm-input mx-auto" id="atmPin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="••••">
+              <p class="atm-status" id="atmStatus" aria-live="polite">Enter 4 digits and press Enter.</p>
+            </div>
+            <p class="key-note">Letters and symbols are blocked, with a warning message.</p>
+          </article>
+
+          <!-- 33 -->
+          <article class="key-card" id="product-search">
+            <div class="key-head">
+              <span class="key-num">33</span>
+              <div><h2>Product search</h2><p>Live text echo · Enter searches</p></div>
+            </div>
+            <label class="form-label" for="kbProductSearch">Product name</label>
+            <input class="form-control search-input" id="kbProductSearch" type="search" placeholder="Try “headphones”" autocomplete="off">
+            <p class="typed-line">You typed: <strong id="kbTyped">—</strong></p>
+            <p class="key-msg" id="kbProductMsg" aria-live="polite"></p>
+          </article>
+
+          <!-- 34 -->
+          <article class="key-card exam-card" id="exam" tabindex="0" aria-label="Online exam question">
+            <div class="key-head">
+              <span class="key-num">34</span>
+              <div><h2>Online exam</h2><p>Click an answer · Enter submits</p></div>
+            </div>
+            <p class="exam-question">Which HTML element defines the largest heading?</p>
+            <div class="exam-options" role="radiogroup" aria-label="Answer options">
+              <button class="exam-option" type="button" role="radio" aria-checked="false" data-correct="false">A. &lt;head&gt;</button>
+              <button class="exam-option" type="button" role="radio" aria-checked="false" data-correct="true">B. &lt;h1&gt;</button>
+              <button class="exam-option" type="button" role="radio" aria-checked="false" data-correct="false">C. &lt;heading&gt;</button>
+              <button class="exam-option" type="button" role="radio" aria-checked="false" data-correct="false">D. &lt;h6&gt;</button>
+            </div>
+            <button class="btn btn-brand btn-sm mt-3 exam-submit" id="examSubmit" type="button">Submit answer</button>
+            <p class="key-msg" id="examMsg" aria-live="polite">Click the card, choose an option, then press Enter.</p>
+          </article>
+
+          <!-- 35 -->
+          <article class="key-card" id="campus" tabindex="0" aria-label="Campus image viewer">
+            <div class="key-head">
+              <span class="key-num">35</span>
+              <div><h2>Campus image viewer</h2><p>← and → to browse · Enter selects</p></div>
+            </div>
+            <div class="gallery-frame">
+              <img id="campusImg" src="assets/img/campus-1.jpg" alt="Students celebrating graduation on campus" width="900" height="600">
+              <span class="counter" id="campusCounter">1 / 4</span>
+            </div>
+            <p class="gallery-caption" id="campusCaption">Convocation day on the main lawn.</p>
+            <p class="gallery-status" id="campusStatus" aria-live="polite"></p>
+            <div class="gallery-nav">
+              <button type="button" id="campusPrev">&larr; Previous</button>
+              <button type="button" id="campusNext">Next &rarr;</button>
+              <button type="button" id="campusSelect">Select image</button>
+            </div>
+            <p class="key-note">Use <span class="kbd">←</span> <span class="kbd">→</span> anywhere on this page, or <span class="kbd">Enter</span> to select.</p>
+          </article>
+
+          <!-- 36 -->
+          <article class="key-card" id="travel-gallery">
+            <div class="key-head">
+              <span class="key-num">36</span>
+              <div><h2>Travel photo gallery</h2><p>N next · P previous · Space reveals</p></div>
+            </div>
+            <div class="gallery-frame">
+              <img id="travelImg" src="assets/img/japan.jpg" alt="Kyoto street with a pagoda at dusk" width="900" height="600">
+              <span class="counter" id="travelCounter">1 / 4</span>
+            </div>
+            <p class="gallery-caption" id="travelCaption">Japan · Kyoto in the evening.</p>
+            <p class="gallery-status" id="travelStatus" aria-live="polite">Press Space to reveal the destination.</p>
+            <div class="gallery-nav">
+              <button type="button" id="travelPrev">P · Previous</button>
+              <button type="button" id="travelNext">N · Next</button>
+              <button type="button" id="travelReveal">Space · Reveal</button>
+            </div>
+            <p class="key-note">Keys are ignored while you are typing in the search fields above.</p>
+          </article>
+
+        </div>
+
+        <aside class="req-note">
+          <h3>What this page demonstrates</h3>
+          <ul>
+            <li>Student search: key echo, Enter message, Esc clear</li>
+            <li>ATM: numeric-only PIN, start and submit messages</li>
+            <li>Product search: typed text, colour change, Enter search</li>
+            <li>Exam: click to select, Enter to submit</li>
+            <li>Campus gallery: arrow keys and Enter selection</li>
+            <li>Travel gallery: N, P and Spacebar controls</li>
+          </ul>
+        </aside>
+
+        <nav class="pager" aria-label="Exercise pagination">
+          <a href="mouse-events.html"><i class="bi bi-arrow-left"></i> 26–30 · Mouse events</a>
+          <a href="exercises.html">All exercises</a>
+          <a href="index.html">Back to portfolio <i class="bi bi-arrow-right"></i></a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer site-footer-sm">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© <span data-year>2026</span> Vishal C Tantri · 24MIC0068</span>
+        <span><a href="exercises.html">Exercise index</a> · <a href="index.html">Portfolio</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/keyboard-events.js"></script>
+</body>
+</html>
